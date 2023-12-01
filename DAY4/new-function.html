@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>신규 함수 사용법</title>
+    </head>
+
+    <body>
+        <h1>최신 함수 정의 사용법</h1>
+        <script>
+            //case1: 전통적인 자바스크립트 함수 정의 방식
+            function fnPlus(a,b){
+                let c=a+b;
+                return c;
+            }
+
+            var result=fnPlus(1,2);
+            console.log("전통적인 함수기능 정의방식:", result)
+
+
+            //case2: 익명함수(함수명 없이 함수정의)
+            var plus1=function(a,b){
+                return a+b;
+            }
+
+            var result1=plus1(1,5);
+            console.log("익명 함수기능 정의방식:", result1);
+
+
+            //case3: 화살표함수(화살표+익명함수)
+            var plus2=(a,b)=>{
+                return a+b;
+            }
+
+            console.log("화살표 함수기능 정의방식1:",plus2(10,20));
+
+
+            //case4: 화살표 함수를 더 간략화(return 구문 생략 가능)
+            var plus3=(a,b)=>(a+b);
+            console.log("화살표 함수기능 정의방식2:",plus3(100,200));
+
+        </script>
+    
+    </body>
+</html>

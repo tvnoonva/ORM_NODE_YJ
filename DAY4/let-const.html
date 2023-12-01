@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>
+            ECMAscriptd2015 let/const 알아보기
+        </title>
+    </head>
+
+    <body>
+        <h1>let/const 학습하기</h1>
+        <script>
+            //웹브라우저에서 돌아가는 코드 (클라이언트x)
+            //전통적인 자바스크립트 변수선언방식 var 
+            var userName = "최유진";
+            var age = 24;
+            var price = 5000;
+            var isMale = false;
+
+            //기본배송비
+            //운영정책(ex) "기본배송비는 첫 할당/설정 후 변경할 수 없다"
+            var baseDelyFee = 3000;
+
+            //웹브라우저의 console탭에 log를 출력하는 코드
+            console.log("기본배송비1:", baseDelyFee);
+
+            //기본배송비 변경
+            baseDelyFee = 13000;
+            //전통적 var 선언은 상수 개념을 지원하지 않아 언제든 변경이 가능하다.
+            console.log("기본배송비2:", baseDelyFee);
+
+            //2015년 자바스크립트 신규문법으로 추가된 상수
+            const newBaseDelyFee = 5000;
+            console.log("상수로 표현하는 기본배송비:", newBaseDelyFee);
+
+            //상수값을 변경하려고 했으므로 에러 발생
+            //TypeError: Assignment to constant variable.
+            //newBaseDelyFee = 10000;
+
+            //총결제 금액 초기값 할당
+            //let 선언: 변수 선언(값 변경 가능)
+            let totalPayPrice = 0;
+
+            console.log("총결제 금액-상수기본배송비:", totalPayPrice,newBaseDelyFee);
+
+            totalPayPrice = 1;
+            console.log("변경된 총결제비:",totalPayPrice);
+
+            //var 변수선언은 블록스코프 개념이 없어서
+            //특정 블록 내부에서 선언된 변수를 외부에서도 접근 가능
+            //다양한 오류의 원인이 된다.
+
+            totalPayPrice += baseDelyFee;
+            totalPayPrice += price;
+
+            console.log("총결제 비용:", totalPayPrice);
+
+            //{} 괄호 내부를 블록이라 하고 
+            //블록 내부에 사용하는 변수를 블록 스코프(생명주기)라고 한다.
+            if(isMale == true){
+                var msg = "남성입니다";
+                console.log("현재 사용자 성별:", msg);
+            }
+
+            //var에는 블록스코프 개념이 없어서 블록 외부에서도 msg 변수에 접근하여 값을 변동시킬수 있다.
+            msg = "여성입니다";
+            console.log("현재 사용자 성별:", msg);
+
+            const region = "제주도";
+            if(region == "제주도"){
+                const addDelyFee = 2000;
+                let addMsg = "도서 배송비가 추가되었습니다";
+                console.log(addMsg);
+
+                totalPayPrice += addDelyFee;
+                console.log("총결제 비용(도서 배송비 추가):", totalPayPrice);
+            }
+
+            //블록 내에서 선언된 let, const 값을 범위 밖에서 사용할 시 에러 발생
+            //블록스코프 값은 블록 내부에서만 사용 가능하다.
+            //ReferenceError: addDelyFee is not defined
+            //console.log("if구문 내에서 선언한 도서배송비", addDelyFee);
+            //console.log("if구문 내에서 선언한 메시지변수", addMsg);
+
+        </script>
+    </body>
+</html>

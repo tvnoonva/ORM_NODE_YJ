@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>자바스크립트 객체지향 실습</title>
+    </head>
+
+    <body>
+        <h1>자바스크립트 객체지향 실습</h1>
+        <script>
+            //브라우저에서 작동되는 client 코드(프론트엔드 코드)
+            var name="최유진";
+            var age=9767;
+
+            //class 정의도 가능하지만 좀 더 손쉬운 방법으로 {}정의 방법을 사용
+            var user={
+                //속성 정의
+                name:name, //객체의 속성을 변수로 정의 가능
+                age, //객체의 속성을 변수로 정의할 때, 속성명과 변수 이름이 같으면 생략 가능
+                address:"경기도 성남시 수성구",
+                telephone:"010-1111-1111",
+
+                //메소드 정의
+                teach:function(){
+                    return "teaching node.js now."
+                }
+            };
+
+            console.log("사용자 자바스크립트 객체 출력:", user);
+
+            let noteBook={
+                productID:"1",
+                productName:"LG 그램17",
+                price:1000,
+                brand:"LG전자"
+            };
+
+            console.log("노트북 정보:", noteBook);
+            noteBook.price=2000;
+            console.log("노트북 정보:", noteBook);
+            //둘다 2000으로 출력됨, 동일한 객체이기 때문에 후에 바꿔준 값이 반영된 상태로 출력
+            //자바스크립트 언어의 특징이다.
+
+            //객체의 동적속성 생성 기능 활용하기
+            //객체를 정의할 때 정의하지 않았던 속성을 후에 추가가능한 기능이다.
+            //노트북의 재고량 속성을 동적속성 정의 방식으로 추가
+            noteBook["stock"]=200;
+            console.log("노트북 정보:", noteBook);
+
+            var asCenter="Gangnam";
+            noteBook[asCenter+"-역삼지점"]=500;
+        </script>
+    </body>
+</html>

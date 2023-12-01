@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>ECMAScript 2015-템플릿 문자열 실습</title>
+    </head>
+    
+    <body>
+        <h1>ECMAScript 2015-템플릿 문자열 실습</h1>
+
+        <script>
+            //자바스크립트 코드는 <script> 태그 내부에 작성한다.
+            const name = "최유진";
+            const age = 213;
+            let local = "중국"
+
+            //전통적인 방식의 문자열과 변수값의 조합방식
+            //가독성이 떨어지고 코드가 정신이 없다.
+            let introduction = "저를 소개합니다. 이름은 "+name+"이고 나이는 "+age
+                +"이고 나이는 "+age+"살이고 사는 곳은 "+local+"입니다.";
+
+            console.log("전통적인 문자열과 변수의 조합:", introduction);
+
+            
+            //ECMAScript 2015에서 추가된 신규문법 템플릿 문자열 방식으로 변수와 문자열을 조합
+            //백틱 홑따옴표(`)를 사용한다.
+            let introduction2 = `저를 소개합니다 이름은 ${name}이고 나이는 ${age}살이고 사는 곳은 ${local}입니다.`;
+            
+            console.log("템플릿 문자열과 변수의 조합:", introduction2);
+        </script>
+    </body>
+</html>
