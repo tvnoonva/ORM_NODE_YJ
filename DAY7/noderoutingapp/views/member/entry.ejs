@@ -7,7 +7,18 @@
     <body>
         <h1>신규 회원 가입 페이지</h1>
         
+        <!-- form 태그
+        - action = "url링크"
+        - method = 요청 방식(post, get ...) -->
+
         <form action="/member/entry" method="post" onsubmit="return fnFormCheck();">
+            <!-- input 요소의 name 속성에 지정된 값은 백엔드 라우팅메소드에서
+            req.body.UI요소의 네임값으로 사용되어 사용자가 입력한 해당 HTML 요소의 값을 
+            백엔드에서 추출할 수 있게 도와줍니다. -->
+
+            <!-- name은 백엔드에서 값을 추출하기 위한 용도(중요함)
+            id는 element를 구분하기 위함 (원칙적으로 중복되면 안된다)
+            ID는 아래 getElementById메소드에서 사용하기 때문에 정의함 -->
             메일주소: <input type="text" name="email" id="email"/><br/>
             비밀번호: <input type="password" name="password" id="password"/><br/>
             이름: <input type="text" name="name" id="name"/><br/>
