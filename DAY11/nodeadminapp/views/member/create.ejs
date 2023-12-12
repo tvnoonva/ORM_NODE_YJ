@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>새 유저 등록 페이지</title>
+    </head>
+
+    <body>
+        <h1>신규 유저 등록</h1>
+        <form action="/member/create" method="post">
+        이름:<input type="text" name="memberName"/><br/>
+        ID:<input type="text" name="memberId"/><br/>
+        email:<input type="email" name="memberEmail"/><br/>
+        전화번호:<input type="text" name="memberPhone"/><br/>
+        주소:<input type="text" name="memberAdd"/><br/>
+        비밀번호:<input type="password" name="memberpassword"/><br/>
+        <input type="submit" value="저장"/>
+        <a href="/member/list">목록 이동</a>
+        </form>
+    </body>
+</html>

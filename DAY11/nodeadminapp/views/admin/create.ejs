@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>새 admin 유저 등록 페이지</title>
+    </head>
+
+    <body>
+        <h1>신규 admin 유저 등록</h1>
+        <form action="/admin/create" method="post">
+        이름:<input type="text" name="adminName"/><br/>
+        ID:<input type="text" name="adminId"/><br/>
+        email:<input type="email" name="adminEmail"/><br/>
+        전화번호:<input type="text" name="adminPhone"/><br/>
+        주소:<input type="text" name="adminAdd"/><br/>
+        비밀번호:<input type="password" name="adminpassword"/><br/>
+        <input type="submit" value="저장"/>
+        <a href="/admin/list">목록 이동</a>
+        </form>
+    </body>
+</html>

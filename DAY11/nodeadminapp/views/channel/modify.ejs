@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>채팅방 정보 수정 페이지</title>
+    </head>
+
+    <body>
+        <h1>채팅방 정보 수정하기</h1>
+        <form action="/channel/modify" method="post">
+        채팅방 이름:<input type="text" name="title"><br/>
+        유저상한제한:<input type="text" name="userLimit" /><br/>
+        <input type="submit" value="저장"/>
+        <a href="/channel/list">목록</a>
+        </form>
+    </body>
+</html>

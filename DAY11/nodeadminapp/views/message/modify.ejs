@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>채팅 메시지 수정 페이지</title>
+    </head>
+
+    <body>
+        <h1>메시지 수정하기</h1>
+        <form action="/message/modify" method="post">
+        유저ID:<input type="text" name="memberId"/><br/>
+        채팅방ID:<input type="text" name="channelId"/><br/>
+        내용:<textarea name="message" rows="20" cols="10" style="width:90%"></textarea><br/>
+        <input type="submit" value="저장"/>
+        <a href="/message/list">목록 이동</a>
+        </form>
+    </body>
+</html>

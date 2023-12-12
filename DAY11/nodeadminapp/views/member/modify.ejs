@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>유저 정보 수정 페이지</title>
+    </head>
+
+    <body>
+        <h1>유저 정보 수정</h1>
+        <form action="/member/modify" method="post">
+        이름:<input type="text" name="memberName" value="<%=memberAcount.memberName%>"/><br/>
+        ID:<input type="text" name="memberId" value="<%=memberAcount.memberId%>"/><br/>
+        email:<input type="email" name="memberEmail" value="<%=memberAcount.memberEmail%>"/><br/>
+        전화번호:<input type="text" name="memberPhone" value="<%=memberAcount.memberPhone%>"/><br/>
+        주소:<input type="text" name="memberAdd" value="<%=memberAcount.memberAdd%>"/><br/>
+        비밀번호:<input type="password" name="memberpassword"/><br/>
+        <input type="submit" value="저장"/>
+        <a href="/member/list">목록 이동</a>
+        </form>
+    </body>
+</html>

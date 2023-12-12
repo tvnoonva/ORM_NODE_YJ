@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>admin 유저 정보 수정 페이지</title>
+    </head>
+
+    <body>
+        <h1>admin 유저 정보 수정</h1>
+        <form action="/admin/modify" method="post">
+        이름:<input type="text" name="adminName" value="<%=adminAcount.adminName%>"/><br/>
+        ID:<input type="text" name="adminId" value="<%=adminAcount.adminId%>"/><br/>
+        email:<input type="email" name="adminEmail" value="<%=adminAcount.adminEmail%>"/><br/>
+        전화번호:<input type="text" name="adminPhone" value="<%=adminAcount.adminPhone%>"/><br/>
+        주소:<input type="text" name="adminAdd" value="<%=adminAcount.adminAdd%>"/><br/>
+        비밀번호:<input type="password" name="adminpassword"/><br/>
+        <input type="submit" value="저장"/>
+        <a href="/admin/list">목록 이동</a>
+        </form>
+    </body>
+</html>
