@@ -35,7 +35,7 @@ router.get('/find', async(req, res)=>{
 router.post('/find', async(req, res)=>{
   var email=req.body.email;
 
-  res.redirect('/login');
+  res.render('find', {email:"", result:"OK"});
 });
 
 module.exports = router;
