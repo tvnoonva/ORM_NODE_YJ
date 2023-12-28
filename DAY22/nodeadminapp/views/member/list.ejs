@@ -1,0 +1,80 @@
+<!--우측 콘텐츠 영역 -->
+<div class="wrapper wrapper-content">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="OrderNo">사용자 이름</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="OrderName">아이디</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="MobileNo">사용여부</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary">조회</button>
+            <a href="/member/create" class="btn btn-info">신규</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="10%">멤버ID</th>
+                                    <th width="20%">사용자 이름</th>
+                                    <th width="20%">이메일</th>
+                                    <th width="20%">전화번호</th>
+                                    <th width="10%">유형</th>
+                                    <th width="20%">가입일</th>
+                                </tr>
+                            </thead>
+                            <tbody class="hoverTblBody">
+                                <% for(var i=0;i<member_list.length;i++){ %>
+                                    <tr>
+                                        <td>
+                                            <%=member_list[i].member_id%>
+                                        </td>
+                                        <td><a href="/member/modify/<%=member_list[i].member_id%>">
+                                                <%=member_list[i].name%>
+                                            </a></td>
+                                        <td>
+                                            <%=member_list[i].email%>
+                                        </td>
+                                        <td>
+                                            <%=member_list[i].telephone%>
+                                        </td>
+                                        <td>
+                                            <% if(member_list[i].entry_type_code==1){%>
+                                                사용자
+                                                <% } else{ %>
+                                                    관리자
+                                                    <% }%>
+                                        </td>
+                                        <td>
+                                            <%=member_list[i].reg_date%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

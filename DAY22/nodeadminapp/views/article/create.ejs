@@ -1,0 +1,82 @@
+<!--우측 콘텐츠 영역 -->
+<form action="/article/create" id="articleForm" method="post">
+    <div class="wrapper wrapper-content">
+        <div class="ibox-content m-b-sm border-bottom">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group d-flex flex-column">
+                        <label class="control-label">대표이미지</label>
+                        <img class="w-75" src="" alt="" />
+                        <button class="w-75" submit="/">변경</button>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div>
+                            <label class="control-label">게시판ID</label>
+                            <input type="text" id="board_type_code" class="form-control mb-3" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-6">제목</label>
+                            <input type="text" id="title" class="form-control mb-3" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">게시물 유형</label>
+                            <input type="text" id="article_type_code" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">내용</label>
+                            <textarea id="contents" rows="4" cols="50" class="form-control">
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">게시방법</label>
+                            <select id="isDisplayCode" class="form-control">
+                                <option value="9">선택</option>
+                                <option value="0">비공개</option>
+                                <option value="1">전체공개</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">저장</button>
+                <a href="/article/list" class="btn btn-info">목록</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    //유효성검사
+    $('#articleForm').submit(function () {
+        if ($('#board_type_code').val() == '') {
+            alert('게시판을 선택해주세요');
+            $('#board_type_code').focus();
+            return false;
+        }
+
+        if ($('#title').val() == '') {
+            alert('제목을 입력해주세요.');
+            $('#title').focus();
+            return false;
+        }
+
+        if ($('#article_type_code').val() == '') {
+            alert('게시글 유형을 입력해주세요.');
+            $('#article_type_code').focus();
+            return false;
+        }
+
+        if ($('#isDisplayCode').val() == '9') {
+            alert('게시방법을 선택해주세요.');
+            $('#isDisplayCode').focus();
+            return false;
+        }
+
+        return true;
+    });
+</script>

@@ -1,0 +1,93 @@
+<!--우측 콘텐츠 영역 -->
+<div class="wrapper wrapper-content">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="OrderNo">채널이름</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="OrderName">아이디</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="MobileNo">사용여부</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary">조회</button>
+            <a href="/message/create" class="btn btn-info">신규</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="5%">메세지ID</th>
+                                    <th width="10%">채팅방ID</th>
+                                    <th width="5%">작성자ID</th>
+                                    <th width="10%">작성자 닉네임</th>
+                                    <th width="10%">타입</th>
+                                    <th width="25%">메세지</th>
+                                    <th width="20%">IP주소</th>
+                                    <th width="15%">작성일자</th>
+                                </tr>
+                            </thead>
+                            <tbody class="hoverTblBody">
+                                <% for(var i=0;i<messages.length;i++){ %>
+                                    <tr>
+                                        <td>
+                                            <%=messages[i].channel_msg_id%>
+                                        </td>
+                                        <td>
+                                            <%=messages[i].channel_id%>
+                                        </td>
+                                        <td>
+                                            <%=messages[i].member_id%>
+                                        </td>
+                                        <td>
+                                            <%=messages[i].nick_name%>
+                                        </td>
+                                        <td>
+                                            <% if(messages[i].msg_type_code==1){%>
+                                                입장
+                                                <% } else if(messages[i].msg_type_code==0){ %>
+                                                    퇴장
+                                                    <% } else if(messages[i].msg_type_code==3){ %>
+                                                        일반메세지
+                                                        <% } else if(messages[i].msg_type_code==4){ %>
+                                                            파일메세지
+                                                            <% }%>
+                                        </td>
+                                        <td><a href="/message/modify/<%=messages[i].channel_msg_id%>">
+                                                <%=messages[i].message%>
+                                            </a></td>
+                                        <td>
+                                        <td>
+                                            <%=messages[i].ip_address%>
+                                        </td>
+                                        <td>
+                                            <%=messages[i].msg_date%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
