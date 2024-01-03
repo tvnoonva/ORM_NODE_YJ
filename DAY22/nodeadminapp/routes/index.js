@@ -44,9 +44,7 @@ router.post('/login', async(req,res)=>{
 
 //로그인 후 접속할 메인페이지 요청&응답
 router.get('/', async(req,res)=>{
-  //if (로그인 되었다면)
-
-  res.render('index', {title: '로그인되었습니다.'});
+  res.render('index');
 });
 
 module.exports = router;
