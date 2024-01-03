@@ -1,5 +1,5 @@
 <!--우측 콘텐츠 영역 -->
-<form action="/member/create" id="memberForm" method="post">
+<form action="/member/modify/<%=member.member_id%>" id="memberForm" method="post">
     <div class="wrapper wrapper-content">
         <div class="ibox-content m-b-sm border-bottom">
             <div class="row">
@@ -15,22 +15,28 @@
                     <div class="form-group">
                         <div>
                             <label class="control-label">이름</label>
-                            <input type="text" id="name" 
+                            <input type="text" id="name" name="name" 
                             value="<%= member.name %>" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">이메일</label>
-                            <input type="email" id="email" 
+                            <input type="email" id="email" name="email" 
                             value="<%= member.email %>" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">비밀번호</label>
-                            <input type="password" id="member_password" class="form-control" />
+                            <input type="password" id="member_password" name="member_password" 
+                            class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">전화번호</label>
-                            <input type="text" id="telephone" 
+                            <input type="text" id="telephone" name="telephone" 
                             value="<%= member.telephone %>" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">생년월일</label>
+                            <input type="text" id="birth_date" name="birth_date" 
+                            value="<%= member.birth_date %>" class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -38,9 +44,40 @@
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">저장</button>
-                <a href="/member/delete" class="btn btn-danger">삭제</a>
+                <a href="/member/delete?member_id=<%=member.member_id%>" class="btn btn-danger">삭제</a>
                 <a href="/member/list" class="btn btn-info">목록</a>
             </div>
         </div>
     </div>
 </form>
+
+<script>
+    //유효성검사
+    $('#memberForm').submit(function () {
+        if ($('#name').val() == '') {
+            alert('이름을 입력해주세요.');
+            $('#name').focus();
+            return false;
+        }
+
+        if ($('#member_password').val() == '') {
+            alert('비밀번호를 입력해주세요.');
+            $('#member_password').focus();
+            return false;
+        }
+
+        if ($('#email').val() == '') {
+            alert('email을 입력해주세요.');
+            $('#email').focus();
+            return false;
+        }
+
+        if ($('#telephone').val() == '') {
+            alert('전화번호를 입력해주세요.');
+            $('#telephone').focus();
+            return false;
+        }
+
+        return true;
+    });
+</script>

@@ -28,21 +28,21 @@ db.ChannelMember = require('./channelMember.js')(sequelize,Sequelize);
 db.Article = require('./article.js')(sequelize,Sequelize); 
 db.ArticleFile = require('./articleFile.js')(sequelize,Sequelize); 
 
-db.ChannelMember.hasMany(db.Channel, {
-    foreignKey: 'channel_id',
-    allowNull: false
-});
-db.Channel.belongsTo(db.ChannelMember, {
-    foreignKey: 'channel_id'
-});
+// db.ChannelMember.hasMany(db.Channel, {
+//     foreignKey: 'channel_id',
+//     allowNull: false
+// });
+// db.Channel.belongsTo(db.ChannelMember, {
+//     foreignKey: 'channel_id'
+// });
 
-db.ChannelMember.hasMany(db.Member, {
-    foreignKey: 'member_id',
-    allowNull: false
-});
-db.Member.belongsTo(db.ChannelMember, {
-    foreignKey: 'member_id'
-});
+// db.ChannelMember.hasMany(db.Member, {
+//     foreignKey: 'member_id',
+//     allowNull: false
+// });
+// db.Member.belongsTo(db.ChannelMember, {
+//     foreignKey: 'member_id'
+// });
 
 //db객체 외부로 노출하기 
 module.exports = db;

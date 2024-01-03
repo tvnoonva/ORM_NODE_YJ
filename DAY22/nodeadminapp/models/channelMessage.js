@@ -53,7 +53,7 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: false,
                 comment: '메시지상태코드 0:퇴장 1:입장 3:일반메시지 4:파일메시지',
             },
-            reg_date: {
+            msg_date: {
                 type: DataTypes.DATE,
                 allowNull: false,
                 comment: '등록일시',

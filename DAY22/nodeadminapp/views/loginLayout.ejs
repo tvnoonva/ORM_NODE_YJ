@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -8,15 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%- meta%>
 
-    <title>INSPINIA | Login</title>
+        <title>MODU Admin Page | Login</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+        <link href="css/animate.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
 
-    <%- style%>
+        <%- style%>
 
 </head>
 
@@ -33,22 +32,19 @@
             <p>Login in. To see it in action.</p>
             <form class="m-t" role="form" action="/login" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" 
-                    name="adminId" placeholder="Username" required="">
+                    <input type="text" class="form-control" name="adminId" placeholder="Username" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" 
-                    name="password" placeholder="Password" required="">
+                    <input type="password" class="form-control" name="password" placeholder="Password" required="">
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
-
-                <a href="#"><small>Forgot password?</small></a>
-                <p class="text-muted text-center"><small>Do not have an account?</small></p>
-                <a class="btn btn-sm btn-white btn-block">Create an account</a>
             </form>
 
             <%- body%>
 
+            <a href="#"><small>Forgot password?</small></a>
+            <p class="text-muted text-center"><small>Do not have an account?</small></p>
+            <a class="btn btn-sm btn-white btn-block">Create an account</a>
             <p class="m-t"> <small>ORM Camp chat app project adminweb &copy; 2023</small> </p>
         </div>
     </div>

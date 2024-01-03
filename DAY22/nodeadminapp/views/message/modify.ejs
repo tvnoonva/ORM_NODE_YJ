@@ -15,22 +15,22 @@
                     <div class="form-group">
                         <div>
                             <label class="control-label">채팅방ID</label>
-                            <input type="text" id="channel_id"  
+                            <input type="text" id="channel_id" name="channel_id" 
                             value="<%= channel_msg.channel_id %>" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label col-6">작성자ID</label>
-                            <input type="text" id="member_id"  
+                            <input type="text" id="member_id" name="member_id" 
                             value="<%= channel_msg.member_id %>" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">작성자 닉네임</label>
-                            <input type="text" id="nick_name"  
+                            <input type="text" id="nick_name" name="nick_name"   
                             value="<%= channel_msg.nick_name %>" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">메세지 유형</label>
-                            <select id="msg_type_code"  
+                            <select id="msg_type_code" name="msg_type_code" 
                             value="<%= channel_msg.msg_type_code %>" class="form-control">
                                 <option value="9">선택</option>
                                 <option value="0">퇴장</option>
@@ -41,14 +41,13 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">커넥션ID</label>
-                            <input type="text" id="connection_id"  
+                            <input type="text" id="connection_id" name="connection_id"   
                             value="<%= channel_msg.connection_id %>" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">메시지</label>
-                            <textarea id="channel_msg" rows="4" cols="50" class="form-control">
-                                <%= channel_msg.message %>
-                            </textarea>
+                            <textarea id="message" name="message" rows="4" cols="50" 
+                            class="form-control"><%= channel_msg.message %></textarea>
                         </div>
                     </div>
                 </div>
@@ -56,9 +55,46 @@
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">저장</button>
-                <a href="/message/delete" class="btn btn-danger">삭제</a>
+                <a href="/message/delete?channel_msg_id=<%=channel_msg.channel_msg_id%>" class="btn btn-danger">삭제</a>
                 <a href="/message/list" class="btn btn-info">목록</a>
             </div>
         </div>
     </div>
 </form>
+
+<script>
+    //유효성검사
+    $('#messageForm').submit(function () {
+        if ($('#channel_id').val() == '') {
+            alert('채팅방을 선택해주세요');
+            $('#channel_id').focus();
+            return false;
+        }
+
+        if ($('#member_id').val() == '') {
+            alert('작성자를 선택해주세요.');
+            $('#member_id').focus();
+            return false;
+        }
+
+        if ($('#nick_name').val() == '') {
+            alert('작성자 닉네임을 입력해주세요.');
+            $('#nick_name').focus();
+            return false;
+        }
+
+        if ($('#msg_type_code').val() == '9') {
+            alert('메세지 유형을 선택해주세요.');
+            $('#msg_type_code').focus();
+            return false;
+        }
+        
+        if ($('#connection_id').val() == '') {
+            alert('커넥션을 선택해주세요.');
+            $('#connection_id').focus();
+            return false;
+        }
+
+        return true;
+    });
+</script>

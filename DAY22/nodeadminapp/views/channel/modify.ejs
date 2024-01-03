@@ -15,37 +15,37 @@
                     <div class="form-group">
                         <div>
                             <label class="control-label">커뮤니티ID</label>
-                            <input type="text" id="community_id" 
+                            <input type="text" id="community_id" name="community_id" 
                             value="<%= channel.community_id %>"class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label col-6">카테고리</label>
-                            <input type="text" id="category_code" 
+                            <input type="text" id="category_code" name="category_code" 
                             value="<%= channel.category_code %>"class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">채팅방 이름</label>
-                            <input type="text" id="channel_name" 
+                            <input type="text" id="channel_name" name="channel_name" 
                             value="<%= channel.channel_name %>"class="form-control" />
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label">유저 수</label>
-                            <input type="text" id="user_limit" 
+                            <input type="text" id="user_limit" name="user_limit" 
                             value="<%= channel.user_limit %>"class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">소개글</label>
-                            <textarea id="channel_desc" rows="4" cols="50" class="form-control">
-                                <%= channel.channel_desc %></textarea>
+                            <textarea id="channel_desc" name="channel_desc" rows="4" cols="50" 
+                            class="form-control"><%= channel.channel_desc %></textarea>
                         </div>
                         <div class="form-group">
                             <label class="control-label">상태</label>
-                            <select id="channel_state_code" 
-                            value="<%= channel.isDisplayCode %>" class="form-control">
-                                <option value="9" <% if( channel.isDisplayCode === 9) { %> selected <%} %>>선택</option>
-                                <option value="0" <% if( channel.isDisplayCode === 0) { %> selected <%} %>>비활성화</option>
-                                <option value="1" <% if( channel.isDisplayCode === 1) { %> selected <%} %>>사용중</option>
+                            <select id="channel_state_code" name="channel_state_code" 
+                            value="<%= channel.channel_state_code %>" class="form-control">
+                                <option value="9" <% if( channel.channel_state_code === 9) { %> selected <%} %>>선택</option>
+                                <option value="0" <% if( channel.channel_state_code === 0) { %> selected <%} %>>비활성화</option>
+                                <option value="1" <% if( channel.channel_state_code === 1) { %> selected <%} %>>사용중</option>
                             </select>
                         </div>
                     </div>
@@ -54,9 +54,46 @@
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">저장</button>
-                <a href="/channel/delete" class="btn btn-danger">삭제</a>
+                <a href="/channel/delete?channel_id=<%=channel.channel_id%>" class="btn btn-danger">삭제</a>
                 <a href="/channel/list" class="btn btn-info">목록</a>
             </div>
         </div>
     </div>
 </form>
+
+<script>
+    //유효성검사
+    $('#channelForm').submit(function () {
+        if ($('#community_id').val() == '') {
+            alert('커뮤니티를 선택해주세요');
+            $('#community_id').focus();
+            return false;
+        }
+
+        if ($('#category_code').val() == '') {
+            alert('카테고리를 선택해주세요.');
+            $('#category_code').focus();
+            return false;
+        }
+
+        if ($('#channel_name').val() == '') {
+            alert('채팅방 이름을 입력해주세요.');
+            $('#channel_name').focus();
+            return false;
+        }
+
+        if ($('#user_limit').val() == '') {
+            alert('유저 수를 입력해주세요.');
+            $('#user_limit').focus();
+            return false;
+        }
+
+        if ($('#channel_state_code').val() == '9') {
+            alert('채팅방 상태를 선택해주세요.');
+            $('#channel_state_code').focus();
+            return false;
+        }
+
+        return true;
+    });
+</script>

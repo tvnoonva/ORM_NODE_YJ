@@ -15,29 +15,29 @@
                     <div class="form-group">
                         <div>
                             <label class="control-label">커뮤니티ID</label>
-                            <input type="text" id="community_id" class="form-control mb-3" />
+                            <input type="text" id="community_id" name="community_id" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label col-6">카테고리</label>
-                            <input type="text" id="category_code" class="form-control mb-3" />
+                            <input type="text" id="category_code" name="category_code" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">채팅방 이름</label>
-                            <input type="text" id="channel_name" class="form-control" />
+                            <input type="text" id="channel_name" name="channel_name" class="form-control" />
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label">유저 수</label>
-                            <input type="text" id="user_limit" class="form-control" />
+                            <input type="text" id="user_limit" name="user_limit" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">소개글</label>
-                            <textarea id="channel_desc" rows="4" cols="50" class="form-control">
-                            </textarea>
+                            <textarea id="channel_desc" name="channel_desc" rows="4" cols="50" 
+                            class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="control-label">상태</label>
-                            <select id="channel_state_code" class="form-control">
+                            <select id="channel_state_code" name="channel_state_code" class="form-control">
                                 <option value="9">선택</option>
                                 <option value="0">비활성화</option>
                                 <option value="1">사용중</option>

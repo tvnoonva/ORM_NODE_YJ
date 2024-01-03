@@ -2,57 +2,11 @@
 //http://localhost:3001/message
 var express = require('express');
 var router = express.Router();
-
-var messages = [
-    {
-        channel_msg_id: 1,
-        channel_id: 1,
-        member_id: 1,
-        nick_name: "helloworld",
-        msg_type_code: 1,
-        connection_id: 1,
-        message: "메시지1 내용",
-        ip_address: "111.111.111.111",
-        top_channel_msg_id: 1,
-        msg_state_code: 1,
-        msg_date: Date.now(),
-        edit_date: Date.now(),
-        del_date: Date.now()
-    },
-    {
-        channel_msg_id: 2,
-        channel_id: 1,
-        member_id: 2,
-        nick_name: "helloworld111",
-        msg_type_code: 1,
-        connection_id: 1,
-        message: "메시지1 내용",
-        ip_address: "111.111.111.111",
-        top_channel_msg_id: 123,
-        msg_state_code: 1,
-        msg_date: Date.now(),
-        edit_date: Date.now(),
-        del_date: Date.now()
-    },
-    {
-        channel_msg_id: 3,
-        channel_id: 3,
-        member_id: 3,
-        nick_name: "helloworld",
-        msg_type_code: 4,
-        connection_id: 1,
-        message: "메시지1 내용",
-        ip_address: "111.111.111.111",
-        top_channel_msg_id: 3,
-        msg_state_code: 0,
-        msg_date: Date.now(),
-        edit_date: Date.now(),
-        del_date: Date.now()
-    },
-];
+var db = require('../models/index');
 
 //localhost:3001/message/list
 router.get('/list', async (req, res) => {
+    var messages = await db.ChannelMessage.findAll();
     res.render('message/list', { messages });
 });
 
@@ -69,52 +23,36 @@ router.post('/create', async (req, res) => {
     var msg_type_code = req.body.msg_type_code;
     var connection_id = req.body.connection_id;
     var message = req.body.message;
-    var ip_address = req.body.ip_address;
 
     var channel_msg = {
-        channel_msg_id: 1,
         channel_id,
         member_id,
         nick_name,
         msg_type_code,
         connection_id,
         message,
-        ip_address:"",
+        ip_address: "127.0.0.1",
         top_channel_msg_id: 1,
         msg_state_code: 1,
-        msg_date: Date.now(),
-        edit_date: Date.now(),
-        del_date: Date.now()
+        msg_date: Date.now()
     };
+
+    await db.ChannelMessage.create(channel_msg);
 
     res.redirect('/message/list');
 });
 
 //localhost:3001/message/modify
 router.get('/modify/:channel_msg_id', async (req, res) => {
-    var channel_msg_id = req.params.channel_msg_id;
+    var channelMsgIdx = req.params.channel_msg_id;
 
-    var channel_msg = {
-        channel_msg_id: 1,
-        channel_id: 1,
-        member_id: 1,
-        nick_name: "helloworld",
-        msg_type_code: 1,
-        connection_id: 1,
-        message: "메시지1 내용",
-        ip_address: "111.111.111.111",
-        top_channel_msg_id: 1,
-        msg_state_code: 1,
-        msg_date: Date.now(),
-        edit_date: Date.now(),
-        del_date: Date.now()
-    }
+    var channel_msg = await db.ChannelMessage.findOne({ where: { channel_msg_id: channelMsgIdx } });
 
     res.render('message/modify', { channel_msg });
 });
 
 router.post('/modify/:channel_msg_id', async (req, res) => {
-    var channel_msg_id = req.params.channel_msg_id;
+    var channelMsgIdx = req.params.channel_msg_id;
 
     var channel_id = req.body.channel_id;
     var member_id = req.body.member_id;
@@ -122,46 +60,28 @@ router.post('/modify/:channel_msg_id', async (req, res) => {
     var msg_type_code = req.body.msg_type_code;
     var connection_id = req.body.connection_id;
     var message = req.body.message;
-    var ip_address = req.body.ip_address;
 
     var channel_msg = {
-        channel_msg_id: 1,
         channel_id,
         member_id,
         nick_name,
         msg_type_code,
         connection_id,
         message,
-        ip_address,
+        ip_address: "127.0.0.1",
         top_channel_msg_id: 1,
         msg_state_code: 1,
-        msg_date: Date.now(),
-        edit_date: Date.now(),
-        del_date: Date.now()
+        edit_date: Date.now()
     };
 
-    var channel_msg = {
-        channel_msg_id: 1,
-        channel_id: 1,
-        member_id: 1,
-        nick_name: "helloworld",
-        msg_type_code: 1,
-        connection_id: 1,
-        message: "메시지1 내용",
-        ip_address: "111.111.111.111",
-        top_channel_msg_id: 1,
-        msg_state_code: 1,
-        msg_date: Date.now(),
-        edit_date: Date.now(),
-        del_date: Date.now()
-    }
+    await db.ChannelMessage.update(channel_msg, { where: { channel_msg_id: channelMsgIdx } });
 
     res.redirect('/message/list');
 });
 
 router.get('/delete', async (req, res) => {
-    var channel_msg_id = req.params.channel_msg_id;
-    
+    var channelMsgIdx = req.query.channel_msg_id;
+    await db.ChannelMessage.destroy({ where: { channel_msg_id: channelMsgIdx } });
     res.redirect('/message/list');
 });
 

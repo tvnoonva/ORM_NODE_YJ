@@ -1,1 +1,8 @@
-<p>로그인 페이지</p>
+<p id="resultMsg" style="color: crimson;"></p>
+
+<script>
+    var result="<%=resultMsg%>";
+    if(result!=""){
+      document.getElementById("resultMsg").innerText=result;
+    }
+  </script>

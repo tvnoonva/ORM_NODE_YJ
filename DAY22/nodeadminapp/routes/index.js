@@ -2,8 +2,9 @@
 //http://localhost:3001/
 var express = require('express');
 var router = express.Router();
-
 var db=require('../models/index');
+
+var resultMsg='';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,13 +14,13 @@ router.get('/', function(req, res, next) {
 //로그인 웹페이지 요청&응답
 //localhost:3001/login
 router.get('/login', async(req,res)=>{
-  res.render('login', {layout:"loginLayout"});
+  resultMsg='';
+  res.render('login', {layout:"loginLayout", resultMsg});
 });
 
 //로그인 처리 및 응답, 처리 후 메인페이지 이동
 //localhost:3001/login
 router.post('/login', async(req,res)=>{
-  var resultMsg='';
 
   var admin_id=req.body.adminId;
   var password=req.body.password;
@@ -38,7 +39,7 @@ router.post('/login', async(req,res)=>{
 
   if(resultMsg!==''){
     console.log(resultMsg);
-    res.render('login', {layout:"loginLayout"});
+    res.render('login', {layout:"loginLayout", resultMsg});
   }
 });
 
