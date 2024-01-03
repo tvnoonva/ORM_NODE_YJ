@@ -54,6 +54,11 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: false,
                 comment: '등록자고유번호',
             },
+            reg_date: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                comment: '등록일시',
+            },
             edit_user_id: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
@@ -61,13 +66,8 @@ module.exports = function (sequelize, DataTypes) {
             },
             edit_date: {
                 type: DataTypes.DATE,
-                allowNull: false,
-                comment: '수정일시',
-            },
-            reg_date: {
-                type: DataTypes.DATE,
                 allowNull: true,
-                comment: '등록일시',
+                comment: '수정일시',
             }
         },
         {

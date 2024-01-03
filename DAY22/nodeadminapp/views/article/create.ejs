@@ -15,24 +15,23 @@
                     <div class="form-group">
                         <div>
                             <label class="control-label">게시판ID</label>
-                            <input type="text" id="board_type_code" class="form-control mb-3" />
+                            <input type="text" name="board_type_code" id="board_type_code" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label col-6">제목</label>
-                            <input type="text" id="title" class="form-control mb-3" />
+                            <input type="text" name="title" id="title" class="form-control mb-3" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">게시물 유형</label>
-                            <input type="text" id="article_type_code" class="form-control" />
+                            <input type="text" name="article_type_code" id="article_type_code" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label class="control-label">내용</label>
-                            <textarea id="contents" rows="4" cols="50" class="form-control">
-                            </textarea>
+                            <textarea id="contents" name="contents" rows="4" cols="50" class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label class="control-label">게시방법</label>
-                            <select id="isDisplayCode" class="form-control">
+                            <select name="is_display_code" id="is_display_code" class="form-control">
                                 <option value="9">선택</option>
                                 <option value="0">비공개</option>
                                 <option value="1">전체공개</option>

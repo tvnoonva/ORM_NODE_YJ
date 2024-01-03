@@ -2,57 +2,12 @@
 //http://localhost:3001/admin
 var express = require('express');
 var router = express.Router();
-
-var admin_member = [
-    {
-        admin_member_id: 1,
-        company_code: 1,
-        admin_id: 'yujin',
-        admin_password: 'yujinPW1',
-        admin_name: '최유진',
-        email: 'am3ca723@gmail.com',
-        telephone: '010-111-1111',
-        dept_name: '개발부',
-        used_yn_code: 1,
-        reg_user_id: 1,
-        edit_user_id: 1,
-        edit_date: Date.now(),
-        reg_date: Date.now(),
-    },
-    {
-        admin_member_id: 2,
-        company_code: 1,
-        admin_id: 'yujin2',
-        admin_password: 'yujinPW12',
-        admin_name: '최유인',
-        email: 'am3ca723@gmail.com',
-        telephone: '010-111-2222',
-        dept_name: '영업부',
-        used_yn_code: 1,
-        reg_user_id: 2,
-        edit_user_id: 2,
-        edit_date: Date.now(),
-        reg_date: Date.now(),
-    },
-    {
-        admin_member_id: 3,
-        company_code: 1,
-        admin_id: 'yujin3',
-        admin_password: 'yujinPW124',
-        admin_name: '최유민',
-        email: 'am3ca723@gmail.com',
-        telephone: '010-111-2223',
-        dept_name: '선도부',
-        used_yn_code: 0,
-        reg_user_id: 3,
-        edit_user_id: 3,
-        edit_date: Date.now(),
-        reg_date: Date.now(),
-    },
-];
+var db = require('../models/index');
 
 //localhost:3001/admin/list
 router.get('/list', async (req, res) => {
+    var admin_member = await db.Admin.findAll();
+
     res.render('admin/list', { admin_member });
 });
 
@@ -82,38 +37,27 @@ router.post('/create', async (req, res) => {
         telephone,
         dept_name,
         used_yn_code,
-        reg_user_id: '',
-        edit_user_id: '',
-        edit_date: Date.now(),
-        reg_date: Date.now(),
+        reg_user_id:1,
+        reg_date: Date.now()
     };
+
+    await db.Admin.create(admin);
 
     res.redirect('/admin/list');
 });
 
 //localhost:3001/admin/modify/~
 router.get('/modify/:admin_id', async (req, res, next) => {
-    var admin_id = req.params.admin_id;
+    var adminIdx = req.params.admin_id;
 
-    var admin = {
-        company_code: 1,
-        admin_id: 2,
-        admin_password: '1234',
-        admin_name: 'newadmin',
-        email: 'root@gmail.com',
-        telephone: '010-1111-1111',
-        dept_name: 'IT부서',
-        used_yn_code: '1',
-        reg_user_id: 'oldAdmin',
-        edit_user_id: 'oldAdmin',
-        edit_date: Date.now(),
-        reg_date: Date.now(),
-    };
+    var admin = await db.Admin.findOne({ where: { admin_member_id: adminIdx } });
 
     res.render('admin/modify', { admin });
 });
 
 router.post('/modify/:admin_id', async (req, res, next) => {
+    var adminIdx = req.params.admin_id;
+
     var company_code = req.body.company_code;
     var admin_id = req.body.admin_id;
     var admin_password = req.body.admin_password;
@@ -127,39 +71,23 @@ router.post('/modify/:admin_id', async (req, res, next) => {
         company_code,
         admin_id,
         admin_password,
-        admin_name,
+        admin_name, 
         email,
         telephone,
         dept_name,
         used_yn_code,
-        reg_user_id: '',
-        edit_user_id: '',
-        edit_date: Date.now(),
-        reg_date: Date.now(),
+        edit_user_id: 1,
+        edit_date: Date.now()
     };
 
-    //등록한 데이터
-    var savedAdmin = {
-        company_code: 1,
-        admin_id: 2,
-        admin_password: '1234',
-        admin_name: 'newadmin',
-        email: 'root@gmail.com',
-        telephone: '010-1111-1111',
-        dept_name: 'IT부서',
-        used_yn_code: '1',
-        reg_user_id: 'oldAdmin',
-        edit_user_id: 'oldAdmin',
-        edit_date: Date.now(),
-        reg_date: Date.now(),
-    };
+    await db.Admin.update(admin, {where:{admin_member_id:adminIdx}});
 
-    res.json(savedAdmin);
+    res.redirect("/admin/list");
 });
 
 router.get('/delete', async (req, res, next) => {
-    var admin_id = req.query.admin_id;
-    // console.log("삭제완료");
+    var adminIdx = req.query.admin_id;
+    await db.Admin.destroy({where:{admin_member_id:adminIdx}});
     res.redirect("/admin/list");
 });
 

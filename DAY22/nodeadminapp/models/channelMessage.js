@@ -1,80 +1,85 @@
 module.exports = function (sequelize, DataTypes) {
-    return sequelize.define('channel',
+    return sequelize.define('channel_msg',
         {
-            channel_id: {
+            channel_msg_id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
                 allowNull: false,
+                comment: '로깅고유번호',
+            },
+            channel_id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
                 comment: '채널고유번호',
             },
-            community_id: {
+            member_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                comment: '커뮤니티고유번호',
+                comment: '사용자고유번호',
             },
-            category_code: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                comment: '채널분류코드',
-            },
-            channel_name: {
+            nick_name: {
                 type: DataTypes.STRING(100),
                 allowNull: false,
-                comment: '채널명',
+                comment: '채팅닉네임',
             },
-            user_limit: {
+            msg_type_code: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                comment: '동시채널접속자수',
+                comment: '로깅유형코드',
             },
-            channel_img_path: {
+            connection_id: {
                 type: DataTypes.STRING(200),
-                allowNull: true,
-                comment: '대표이미지주소',
+                allowNull: false,
+                comment: '채팅고유커넥션아이디',
             },
-            channel_desc: {
+            message: {
                 type: DataTypes.STRING(1000),
-                allowNull: true,
-                comment: '채널간략소개',
+                allowNull: false,
+                comment: '원본채팅메시지',
             },
-            channel_state_code: {
+            ip_address: {
+                type: DataTypes.STRING(20),
+                allowNull: false,
+                comment: 'IP주소',
+            },
+            top_channel_msg_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                comment: '채널오픈상태코드 0:사용안함 1:사용중',
+                comment: '최상위메시지고유번호',
+            },
+            msg_state_code: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                comment: '메시지상태코드 0:퇴장 1:입장 3:일반메시지 4:파일메시지',
             },
             reg_date: {
                 type: DataTypes.DATE,
                 allowNull: false,
                 comment: '등록일시',
             },
-            reg_member_id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                comment: '등록자고유번호',
-            },
             edit_date: {
                 type: DataTypes.DATE,
                 allowNull: true,
                 comment: '수정일시',
             },
-            edit_member_id: {
-                type: DataTypes.INTEGER,
+            del_date: {
+                type: DataTypes.DATE,
                 allowNull: true,
-                comment: '수정자고유번호',
-            }
+                comment: '등록일시',
+            },
         },
         {
             sequelize,
-            tableName: 'channel',
+            tableName: 'channel_msg',
             timestamps: false,
-            comment: '채널정보마스터',
+            comment: '채널채팅이력정보',
             indexes: [
                 {
                     name: 'PRIMARY',
                     unique: true,
                     using: 'BTREE',
-                    fields: [{ name: 'channel_id' }], 
+                    fields: [{ name: 'channel_msg' }], 
                 },
             ],
         }

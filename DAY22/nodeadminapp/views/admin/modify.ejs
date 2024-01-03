@@ -1,6 +1,6 @@
 <!--우측 콘텐츠 영역 -->
 <div class="wrapper wrapper-content">
-    <form action="/admin/modify/<%=admin.admin_id%>" id="adminForm" method="post">
+    <form action="/admin/modify/<%=admin.admin_member_id%>" id="adminForm" method="post">
         <div class="ibox-content m-b-sm border-bottom">
             <div class="row">
                 <div class="col-sm-4">
@@ -47,15 +47,66 @@
                             <input type="text" name="dept_name" id="dept_name" 
                             value="<%= admin.dept_name %>" class="form-control" />
                         </div>
+                        <div class="form-group">
+                            <label class="control-label">사용여부</label>
+                            <select id="used_yn_code" name="used_yn_code" class="form-control">
+                                <option value="9">선택</option>
+                                <option value="0">사용안함</option>
+                                <option value="1">사용함</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">저장</button>
-                <a href="/admin/delete" class="btn btn-danger">삭제</a>
+                <a href="/admin/delete?admin_id=<%=admin.admin_member_id%>" class="btn btn-danger">삭제</a>
                 <a href="/admin/list" class="btn btn-info">목록</a>
             </div>
         </div>
     </form>
 </div>
+
+<script>
+    //유효성검사
+    $('#adminForm').submit(function () {
+        if ($('#company_code').val() == '') {
+            alert('소속 회사를 입력해주세요');
+            $('#company_code').focus();
+            return false;
+        }
+
+        if ($('#admin_id').val() == '') {
+            alert('ID를 입력해주세요.');
+            $('#admin_id').focus();
+            return false;
+        }
+
+        if ($('#admin_name').val() == '') {
+            alert('이름을 입력해주세요.');
+            $('#admin_name').focus();
+            return false;
+        }
+
+        if ($('#admin_password').val() == '') {
+            alert('비밀번호를 입력해주세요.');
+            $('#admin_password').focus();
+            return false;
+        }
+
+        if ($('#email').val() == '') {
+            alert('email을 입력해주세요.');
+            $('#email').focus();
+            return false;
+        }
+
+        if ($('#telephone').val() == '') {
+            alert('전화번호를 입력해주세요.');
+            $('#telephone').focus();
+            return false;
+        }
+
+        return true;
+    });
+</script>
