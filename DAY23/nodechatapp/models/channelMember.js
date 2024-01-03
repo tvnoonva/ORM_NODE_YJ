@@ -44,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
             ip_address: {
                 type: DataTypes.STRING(50),
                 allowNull: false,
-                comment: 'ip주소',
+                comment: 'IP주소',
             },
             edit_date: {
                 type: DataTypes.DATE,
@@ -54,22 +54,14 @@ module.exports = function (sequelize, DataTypes) {
             edit_member_id: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
-                comment: '수정자아이디',
+                comment: '수정자고유번호',
             }
         },
         {
             sequelize,
             tableName: 'channel_member',
             timestamps: false,
-            comment: '채널채팅사용자정보',
-            indexes: [
-                {
-                    name: 'PRIMARY',
-                    unique: true,
-                    using: 'BTREE',
-                    fields: [{ name: 'channel_id' }], 
-                },
-            ],
+            comment: '채팅채널사용자정보'
         }
     );
 };

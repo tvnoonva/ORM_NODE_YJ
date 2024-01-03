@@ -2,8 +2,7 @@ module.exports = function (sequelize, DataTypes) {
     return sequelize.define('channel',
         {
             channel_id: {
-                type: DataTypes.INTEGER
-                ,
+                type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
                 allowNull: false,
@@ -30,13 +29,13 @@ module.exports = function (sequelize, DataTypes) {
                 comment: '동시채널접속자수',
             },
             channel_img_path: {
-                type: DataTypes.STRING(20),
+                type: DataTypes.STRING(200),
                 allowNull: true,
                 comment: '대표이미지주소',
             },
             channel_desc: {
                 type: DataTypes.STRING(1000),
-                allowNull: false,
+                allowNull: true,
                 comment: '채널간략소개',
             },
             channel_state_code: {
@@ -52,7 +51,7 @@ module.exports = function (sequelize, DataTypes) {
             reg_member_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                comment: '등록아이디',
+                comment: '등록자고유번호',
             },
             edit_date: {
                 type: DataTypes.DATE,

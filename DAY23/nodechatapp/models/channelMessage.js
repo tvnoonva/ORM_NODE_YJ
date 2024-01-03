@@ -25,11 +25,11 @@ module.exports = function (sequelize, DataTypes) {
             },
             msg_type_code: {
                 type: DataTypes.INTEGER,
-                allowNull: true,
-                comment: '로깅유형코드 1:입장 0:퇴장 3:일반메시지 4:파일메시지',
+                allowNull: false,
+                comment: '로깅유형코드',
             },
             connection_id: {
-                type: DataTypes.STRING(100),
+                type: DataTypes.STRING(200),
                 allowNull: false,
                 comment: '채팅고유커넥션아이디',
             },
@@ -41,7 +41,7 @@ module.exports = function (sequelize, DataTypes) {
             ip_address: {
                 type: DataTypes.STRING(20),
                 allowNull: false,
-                comment: 'ip주소',
+                comment: 'IP주소',
             },
             top_channel_msg_id: {
                 type: DataTypes.INTEGER,
@@ -51,7 +51,7 @@ module.exports = function (sequelize, DataTypes) {
             msg_state_code: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
-                comment: '메시지 상태코드',
+                comment: '메시지상태코드 0:퇴장 1:입장 3:일반메시지 4:파일메시지',
             },
             msg_date: {
                 type: DataTypes.DATE,
@@ -66,20 +66,20 @@ module.exports = function (sequelize, DataTypes) {
             del_date: {
                 type: DataTypes.DATE,
                 allowNull: true,
-                comment: '삭제일시',
-            }
+                comment: '등록일시',
+            },
         },
         {
             sequelize,
             tableName: 'channel_msg',
             timestamps: false,
-            comment: '채널정보마스터',
+            comment: '채널채팅이력정보',
             indexes: [
                 {
                     name: 'PRIMARY',
                     unique: true,
                     using: 'BTREE',
-                    fields: [{ name: 'channel_msg_id' }], 
+                    fields: [{ name: 'channel_msg' }], 
                 },
             ],
         }
