@@ -1,0 +1,84 @@
+<!--우측 콘텐츠 영역 -->
+<div class="wrapper wrapper-content">
+    <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="OrderNo">사용자 명</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="OrderName">아이디</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="control-label" for="MobileNo">사용여부</label>
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary">조회</button>
+            <a href="/admin/create" class="btn btn-info">신규</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="10%">소속회사코드</th>
+                                    <th width="10%">관리자ID</th>
+                                    <th width="20%">관리자이름</th>
+                                    <th width="20%">관리자email</th>
+                                    <th width="10%">관리자연락처</th>
+                                    <th width="10%">사용여부</th>
+                                    <th width="20%">등록일시</th>
+                                </tr>
+                            </thead>
+                            <tbody class="hoverTblBody">
+                                <% for(var i=0;i<admin_member.length;i++){ %>
+                                    <tr>
+                                        <td>
+                                            <%=admin_member[i].company_code%>
+                                        </td>
+                                        <td><a href="/admin/modify/<%=admin_member[i].admin_member_id%>">
+                                                <%=admin_member[i].admin_id%>
+                                            </a></td>
+                                        <td>
+                                            <%=admin_member[i].admin_name%>
+                                        </td>
+                                        <td>
+                                            <%=admin_member[i].email%>
+                                        </td>
+                                        <td>
+                                            <%=admin_member[i].telephone%>
+                                        </td>
+                                        <td>
+                                            <% if(admin_member[i].used_yn_code==1){%>
+                                                사용함
+                                                <% } else{ %>
+                                                    휴면계정
+                                                    <% }%>
+                                        </td>
+                                        <td>
+                                            <%=admin_member[i].reg_date%>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
