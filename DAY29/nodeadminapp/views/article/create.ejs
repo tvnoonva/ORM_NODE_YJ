@@ -20,7 +20,7 @@
 </div>
 
 <!--우측 콘텐츠 영역 -->
-<form action="/article/create" id="articleForm" method="post">
+<form action="/article/create" id="articleForm" method="post" enctype="multipart/form-data">
     <div class="wrapper wrapper-content">
         <div class="ibox-content m-b-sm border-bottom">
 
@@ -55,7 +55,11 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="control-label">글내용</label>
-                        <textarea class="form-control" name="contents" id="contents" rows="10" cols="5"></textarea>
+
+                        <!-- SUMMERNOTE 웹에디터 -->
+                        <div class="summernote"></div>
+
+                        <!-- <textarea class="form-control" name="contents" id="contents" rows="10" cols="5"></textarea> -->
                     </div>
                 </div>
             </div>
@@ -91,17 +95,16 @@
                         <input type="text" name="register" id="register" class="form-control">
                     </div>
                 </div>
+            </div>
 
-                <!-- 글제목 -->
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label">첨부파일</label>
-                            <input type="file" name="title" id="title" class="form-control" />
-                        </div>
+            <!-- 첨부파일 -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label">첨부파일</label>
+                        <input type="file" name="file" id="file" class="form-control" />
                     </div>
                 </div>
-
             </div>
 
             <!-- 저장/목록이동 버튼  -->
@@ -119,6 +122,53 @@
     //서버에서 보내준 html웹페이지가 사용자 웹브라우저에
     //모두 렌더링이 완료된 시점에 발생 $(document).ready();
     $(document).ready(function () {
+        //SUMMERNOTE 웹에디터 실행하기
+        // $('.summernote').summernote();
+        $('.summernote').summernote({
+            height: 300, //editer의 디폴트 높이
+            minHeight: 250, //최소 높이
+            maxHeight: 500, //최대 높이
+            focus: false,
+            lang: 'en-US',
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['fontsize', 'bold', 'underline', 'clear']],
+                ['height', ['height']],
+                ['color', ['color']],
+                ['table', ['table']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['picture', 'link', 'video']],
+                ['view', ['codeview', 'help']]
+            ],
+            callbacks: {
+                onImageUpload: function (files) {
+                    for (var i = 0; i < files.length; i++) {
+                        sendFile(files[i], this);
+                    }
+                }
+            }
+        });
+
+        //프론트엔드에서 백엔드 업로드 API를 호출해서 파일업로드처리
+        function sendFile(file, editer, welEditable) {
+            var data = new FormData();
+            data.append("file", file);
+
+            $.ajax({
+                data: data,
+                type: "POST",
+                url: "/api/article/upload",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log("파일업로드 처리결과:", result);
+                    $(editer).summernote("insertImage", result.data.filePath);
+                }
+            });
+        }
+
+
         $("#boardTypeCode").focus();
         //alert("게시글 등록페이지가 렌더링 완료되었습니다.");
         console.log("게시글 등록 웹페이지가 웹브라우저에 모두 렌더링 되었습니다. ");
