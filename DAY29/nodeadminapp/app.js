@@ -13,6 +13,7 @@ var sequelize = require('./models/index').sequelize;
 //express-ejs-layouts 패키지 참조하기
 var expressLayouts = require('express-ejs-layouts');
 
+var session = require('express-session');
 
 
 var indexRouter = require('./routes/index');
@@ -27,6 +28,20 @@ var app = express();
 
 //mysql과 자동연결처리 및 모델기반 물리 테이블 생성처리제공
 sequelize.sync(); 
+
+//express기반 서버세션 관리 팩키지 참조하기 
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: true, 
+    secret: "testsecret", 
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge:1000 * 60 * 5 //5분동안 서버세션을 유지하겠다.(1000은 1초)
+    },
+  }),
+);
 
 
 // view engine setup
