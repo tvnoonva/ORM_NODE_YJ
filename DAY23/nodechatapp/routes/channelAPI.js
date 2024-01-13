@@ -1,59 +1,17 @@
 var express = require("express");
 var router = express.Router();
+var db = require('../models/index');
 
-/* GET home page. */
-var channel_list = [
-  {
-    channel_id: 1,
-    community_id: 110011,
-    category_code: 1021,
-    channel_name: "채널1",
-    user_limit: 100,
-    channel_img_path: "채널1이미지",
-    channel_desc: "채널1설명",
-    channel_state_code: 1,
-    reg_date: Date.now(),
-    reg_member_id: 881,
-    edit_date: Date.now(),
-    edit_member_id: 991,
-  },
-  {
-    channel_id: 2,
-    community_id: 220022,
-    category_code: 1022,
-    channel_name: "채널2",
-    user_limit: 200,
-    channel_img_path: "채널2이미지",
-    channel_desc: "채널2설명",
-    channel_state_code: 0,
-    reg_date: Date.now(),
-    reg_member_id: 882,
-    edit_date: Date.now(),
-    edit_member_id: 992,
-  },
-  {
-    channel_id: 3,
-    community_id: 330033,
-    category_code: 1023,
-    channel_name: "채널3",
-    user_limit: 300,
-    channel_img_path: "채널3이미지",
-    channel_desc: "채널3설명",
-    channel_state_code: 1,
-    reg_date: Date.now(),
-    reg_member_id: 883,
-    edit_date: Date.now(),
-    edit_member_id: 993,
-  },
-];
 var apiResult = {
   code: 200,
-  data: [],
-  result: "OK"
+  data: null,
+  result: ""
 }
 
 router.get("/all", async (req, res, next) => {
   try {
+
+    var channel_list = await db.Channel.findAll();
 
     apiResult.code = 200;
     apiResult.data = channel_list;
@@ -73,50 +31,23 @@ router.get("/all", async (req, res, next) => {
 router.post("/create", async (req, res, next) => {
 
   try {
-    var channel_id = req.body.channel_id;
-    var community_id = req.body.community_id;
-    var category_code = req.body.category_code;
-    var channel_name = req.body.channel_name;
-    var user_limit = req.body.user_limit;
-    var channel_img_path = req.body.channel_img_path;
-    var channel_desc = req.body.channel_desc;
-    var channel_state_code = req.body.channel_state_code;
-    var reg_member_id = req.body.reg_member_id;
-    var edit_member_id = req.body.edit_member_id;
-
     var channel = {
-      channel_id,
-      community_id,
-      category_code,
-      channel_name,
-      user_limit,
-      channel_img_path,
-      channel_desc,
-      channel_state_code,
+      channel_id:req.body.channel_id,
+      community_id:req.body.community_id,
+      category_code:req.body.category_code,
+      channel_name:req.body.channel_name,
+      user_limit:req.body.user_limit,
+      channel_img_path:req.body.channel_img_path,
+      channel_desc:req.body.channel_desc,
+      channel_state_code:req.body.channel_state_code,
       reg_date: Date.now(),
-      reg_member_id,
-      edit_date: Date.now(),
-      edit_member_id,
+      reg_member_id:1
     };
 
-    //
-    var savedChannel = {
-      channel_id: 1,
-      community_id: 110011,
-      category_code: 1021,
-      channel_name: "채널1",
-      user_limit: 100,
-      channel_img_path: "채널1이미지",
-      channel_desc: "채널1설명",
-      channel_state_code: 1,
-      reg_date: Date.now(),
-      reg_member_id: 881,
-      edit_date: Date.now(),
-      edit_member_id: 991,
-    };
+    await db.Channel.create(channel);
 
     apiResult.code = 200;
-    apiResult.data = savedChannel;
+    apiResult.data = channel;
     apiResult.result = "OK";
 
   } catch (err) {
@@ -132,34 +63,20 @@ router.post("/create", async (req, res, next) => {
 
 router.post("/modify", async (req, res, next) => {
   try {
-    var channel_id = req.body.channel_id;
-    var community_id = req.body.community_id;
-    var category_code = req.body.category_code;
-    var channel_name = req.body.channel_name;
-    var user_limit = req.body.user_limit;
-    var channel_img_path = req.body.channel_img_path;
-    var channel_desc = req.body.channel_desc;
-    var channel_state_code = req.body.channel_state_code;
-    var reg_member_id = req.body.reg_member_id;
-    var edit_member_id = req.body.edit_member_id;
-
     var channel = {
-      channel_id,
-      community_id,
-      category_code,
-      channel_name,
-      user_limit,
-      channel_img_path,
-      channel_desc,
-      channel_state_code,
-      reg_date: Date.now(),
-      reg_member_id,
-      edit_date: Date.now(),
-      edit_member_id,
+      channel_id:req.body.channel_id,
+      community_id:req.body.community_id,
+      category_code:req.body.category_code,
+      channel_name:req.body.channel_name,
+      user_limit:req.body.user_limit,
+      channel_img_path:req.body.channel_img_path,
+      channel_desc:req.body.channel_desc,
+      channel_state_code:req.body.channel_state_code,
+      edit_date:Date.now(),
+      edit_member_id:1
     };
-
-    //
-    var affectedCnt = 1;
+    
+    var affectedCnt = await db.Channel.update(channel, {where:{channel_id:channel_id}});
 
     apiResult.code = 200;
     apiResult.data = affectedCnt;
@@ -175,12 +92,12 @@ router.post("/modify", async (req, res, next) => {
   res.json(apiResult);
 });
 
-router.post("/delete", async (req, res, next) => {
+//params로 정보 받음
+router.post("/delete/:cid", async (req, res, next) => {
   try {
-    var channel_id = req.body.channel_id;
-    //삭제
+    var channel_id = req.params.cid;
 
-    var affectedCnt = 1;
+    var affectedCnt = await db.Channel.destory({where:{channel_id:channel_id}});
 
     apiResult.code = 200;
     apiResult.data = affectedCnt;
@@ -198,27 +115,12 @@ router.post("/delete", async (req, res, next) => {
 
 router.get("/:cid", async (req, res, next) => {
   try {
-    var cid = req.params.cid;
-    // console.log("cid : " + cid);
+    var channel_id = req.params.cid;
     
-    //임시 Data 
-    var savedChannel = {
-      channel_id: 3,
-      community_id: 330033,
-      category_code: 1023,
-      channel_name: "채널3",
-      user_limit: 300,
-      channel_img_path: "채널3이미지",
-      channel_desc: "채널3설명",
-      channel_state_code: 1,
-      reg_date: Date.now(),
-      reg_member_id: 883,
-      edit_date: Date.now(),
-      edit_member_id: 993,
-    };
+    var channel = await db.Channel.findOne({where:{channel_id:channel_id}});
 
     apiResult.code = 200;
-    apiResult.data = savedChannel;
+    apiResult.data = channel;
     apiResult.result = "OK";
 
   } catch (err) {
