@@ -3,12 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config();
+
 var expressLayouts = require('express-ejs-layouts');
 var sequelize = require('./models/index.js').sequelize;
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
 var channelRouter = require('./routes/channel');
 var memberAPIRouter = require('./routes/memberAPI');
 var channelAPIRouter = require('./routes/channelAPI');
@@ -38,6 +40,8 @@ app.use('/users', usersRouter);
 app.use('/channel', channelRouter);
 app.use('/api/member', memberAPIRouter);
 app.use('/api/channel', channelAPIRouter);
+
+// app.use(cors());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
