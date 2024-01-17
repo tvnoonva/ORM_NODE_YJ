@@ -11,9 +11,10 @@ var apiResult = {
     result: ""
 }
 
+//로그인
 //암호화 적용 / JWT 인증 토큰 발급 / 토큰 로컬스토리지 저장
 router.post("/login", async (req, res, next) => {
-    var email = await AES.encrypt(req.body.email, 12);
+    var email = await AES.encrypt(req.body.email, process.env.MYSQL_AES_KEY);
     var password = req.body.password;
 
     try {
@@ -45,7 +46,8 @@ router.post("/login", async (req, res, next) => {
     }
 });
 
-//암호화 적용(PW:단방향, telephone:양방향)
+//신규가입
+//암호화 적용(PW:단방향, telephone, email:양방향)
 router.post("/entry", async (req, res, next) => {
     try {
         const member = {
@@ -74,9 +76,31 @@ router.post("/entry", async (req, res, next) => {
     }
 });
 
+//암호 찾기
+//email을 token에 전달할때는 decrypted 상태로 전달한다.
 router.post('/find', async(req,res,next)=>{
     var eamil = req.body.eamil;
-    //email aes 걸려있음 참고
+
+    try{
+        var encryptedEmail = await AES.encrypt(email, process.env.MYSQL_AES_KEY);
+        const member = await db.Member.findOne({where:{email:encryptedEmail}});
+        if(!member){
+            return res.json({code:400, data:null, result:"Member not Found"});
+        }else{
+            const token = await jwt.sign({
+                member_id:member.member_id,
+                email:email,
+                name:member.name
+            }, process.env.JWT_SECRET, {expiresIn:'24h', issuer:'Ormcamp'});
+
+            //메일 전송
+            console.log(token);
+
+            return res.json({code:200, data:token, result:`Send email to ${email}.`});
+        }
+    }catch(err){
+        return res.json({code:500, data:null, result:"Server ERROR in /find POST"});
+    }
 
 })
 

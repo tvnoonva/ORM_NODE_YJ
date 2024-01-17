@@ -3,9 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
+require('dotenv').config();
 var expressLayouts = require('express-ejs-layouts');
 var sequelize = require('./models/index.js').sequelize;
-
+var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,6 +22,18 @@ var messageRouter = require('./routes/message');
 var app = express();
 
 sequelize.sync();
+
+app.use(session({
+    resave: false,
+    saveUninitialized: true, 
+    secret: "testsecret", 
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge:1000 * 60 * 5 //5분동안 서버세션을 유지하겠다.(1000은 1초)
+    },
+  }),
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

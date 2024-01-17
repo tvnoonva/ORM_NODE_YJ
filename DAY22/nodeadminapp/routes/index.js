@@ -3,49 +3,56 @@
 var express = require('express');
 var router = express.Router();
 var db=require('../models/index');
+var bcrypt = require('bcryptjs');
+var AES = require('mysql-aes');
+
+const {isLoggedIn, isNotLoggedIn} = require('./sessionMiddleware');
 
 var resultMsg='';
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
+router.get('/main', isLoggedIn, function(req, res, next) {
+  var userData =  req.session.loginUser;
+  res.render('index', {userData});
 });
 
 //로그인 웹페이지 요청&응답
-//localhost:3001/login
-router.get('/login', async(req,res)=>{
+//localhost:3001/
+router.get('/', isNotLoggedIn, async(req,res)=>{
   resultMsg='';
   res.render('login', {layout:"loginLayout", resultMsg});
 });
 
 //로그인 처리 및 응답, 처리 후 메인페이지 이동
-//localhost:3001/login
-router.post('/login', async(req,res)=>{
+//localhost:3001/
+router.post('/', isNotLoggedIn, async(req,res)=>{
 
   var admin_id=req.body.adminId;
   var password=req.body.password;
 
   var login_member = await db.Admin.findOne({where:{admin_id:admin_id}});
 
-  if(login_member==null){
-    resultMsg='사용자를 찾을 수 없습니다.';
-  }else{
-    if(login_member.admin_password == password){
-      res.redirect('/');
+  if(login_member){
+    if(await bcrypt.compare(password, login_member.admin_password)){
+      var sessionLoginData = {
+        admin_member_id: login_member.admin_member_id,
+        company_code: login_member.company_code,
+        admin_id: login_member.admin_id,
+        admin_name: login_member.admin_name
+      };
+
+      req.session.isLoggedIn = true;
+      req.session.loginUser = sessionLoginData;
+      req.session.save(function () {
+        return res.redirect("/main");
+      });
     }else{
-      resultMsg='암호가 일치하지 않습니다.';
+      return res.render('login', {layout:false, resultMsg:"Password not correct."});
     }
+  }else{
+    return res.render('login', {layout:false, resultMsg:"Admin member not found."});
   }
 
-  if(resultMsg!==''){
-    console.log(resultMsg);
-    res.render('login', {layout:"loginLayout", resultMsg});
-  }
-});
-
-//로그인 후 접속할 메인페이지 요청&응답
-router.get('/', async(req,res)=>{
-  res.render('index');
 });
 
 module.exports = router;
