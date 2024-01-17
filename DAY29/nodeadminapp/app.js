@@ -34,7 +34,7 @@ app.use(
   session({
     resave: false,
     saveUninitialized: true, 
-    secret: "testsecret", 
+    secret: process.env.COOKIE_SECRET, 
     cookie: {
       httpOnly: true,
       secure: false,

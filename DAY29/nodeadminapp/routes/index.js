@@ -3,18 +3,20 @@ var router = express.Router();
 var db = require('../models/index');
 var bcrypt = require('bcryptjs');
 
+const {isLoggedIn, isNotLoggedIn} =require('./sessionMiddleware');
+
 /* 
 기능: 관리자 웹사이트 메인페이지 요청과 응답처리 라우팅 메소드 
 호출주소: http://localhost:3000/
  */
-router.get('/', async (req, res, next) => {
+router.get('/', isLoggedIn, async (req, res, next) => {
   var admin_id = req.session.loginUser.admin_id;
   console.log(admin_id);
   res.render('index.ejs');
 });
 
 
-router.get('/login', async (req, res, next) => {
+router.get('/login', isNotLoggedIn, async (req, res, next) => {
   res.render('login.ejs', { layout: false, resultMsg:"" });
 });
 
@@ -45,6 +47,9 @@ router.post('/login', async (req, res, next) => {
       //req.session 속성에 동적속성으로 loginUser라는 속성을 생성하고 값으로 세션 json값을 세팅
       req.session.loginUser = sessionLoginData;
 
+      //관리자 로그인 여부 세션 속성 추가하기
+      req.session.isLogined = true;
+
       //반드시 req.session.save()메소드를 호출해서 동적속성에 저장된 신규속성을 저장한다.
       //save()호출과 동시에 쿠키파일이 서버에서 생성되고 생성된 쿠키파일이 현재 사용자 웹브라우저에 전달되어 저장된다.
       //저장된 쿠키파일은 이후 해당사이트로 요청이 있을때마다 무조건 전달된다.
@@ -64,6 +69,16 @@ router.post('/login', async (req, res, next) => {
     res.render('login.ejs', { layout: false, resultMsg });
   }
 
+});
+
+router.get('/logout', isLoggedIn, async(req,res,next)=>{
+  // req.logout(function(err){
+  //   //로그아웃하고 관리자 로그인 페이지로 이동
+  //   req.session.destroy();
+  //   res.redirect('/login');
+  // });
+
+  res.redirect('/login');
 });
 
 

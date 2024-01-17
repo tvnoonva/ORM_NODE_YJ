@@ -10,6 +10,8 @@ var multer = require('multer');
 //S3전용 업로드 객체 참조
 var { upload } = require('../common/aws_s3');
 
+const {isLoggedIn, isNotLoggedIn} =require('./sessionMiddleware');
+
 //파일저장위치 지정
 var storage = multer.diskStorage({
     destination(req, file, cb) {
@@ -34,7 +36,7 @@ const { QueryTypes } = sequelize;
 //게시글 목록 조회 웹페이지 요청 및 응답 라우팅메소드
 //http://localhost:3000/article/list
 //GET
-router.get('/list', async (req, res) => {
+router.get('/list',isLoggedIn, async (req, res) => {
 
     var searchOption = {
         boardTypeCode: "0",
@@ -87,7 +89,7 @@ router.get('/list', async (req, res) => {
 //게시글 목록 페이지에 대한 요청과 응답처리
 //http://localhost:/article/list
 //POST
-router.post('/list', async (req, res) => {
+router.post('/list',isLoggedIn, async (req, res) => {
 
     //step1: 사용자가 선택/입력한 조회옵션 데이터를 추출한다.
     var boardTypeCode = req.body.boardTypeCode;
@@ -116,14 +118,14 @@ router.post('/list', async (req, res) => {
 
 //신규 게시글 등록 웹페이지 요청 및 응답 라우팅 메소드
 //http://localhost:3000/article/create
-router.get('/create', async (req, res) => {
+router.get('/create',isLoggedIn, async (req, res) => {
     res.render('article/create.ejs');
 });
 
 
 //신규 게시글 사용자 등록정보 처리 요청 및 응답 라우팅메소드
 //upload.single('html 태그 내 file 태그의 name명')
-router.post('/create', simpleUpload.single('file'), async (req, res) => {
+router.post('/create',isLoggedIn, simpleUpload.single('file'), async (req, res) => {
 
     //step1: 사용자가 입력한 게시글 등록 데이터 추출
     var boardTypeCode = req.body.boardTypeCode;
@@ -187,7 +189,7 @@ router.post('/create', simpleUpload.single('file'), async (req, res) => {
 
 //신규 게시글 사용자 등록정보 처리 요청 및 응답 라우팅메소드: S3에 파일업로드
 //upload.getUpload('upload/').fields([{ name: 'client 파일 태그명', maxCount: 1 }])
-router.post('/creates3', upload.getUpload('/').fields([{ name: 'file', maxCount: 1 }]), async (req, res) => {
+router.post('/creates3', isLoggedIn, upload.getUpload('/').fields([{ name: 'file', maxCount: 1 }]), async (req, res) => {
 
     //step1: 사용자가 입력한 게시글 등록 데이터 추출
     var boardTypeCode = req.body.boardTypeCode;
@@ -237,7 +239,7 @@ router.post('/creates3', upload.getUpload('/').fields([{ name: 'file', maxCount:
 
 //기존 게시를 삭제처리 요청 및 응답 라우팅메소드
 //http://localhost:3000/article/delete?aid=3
-router.get('/delete', async (req, res) => {
+router.get('/delete', isLoggedIn, async (req, res) => {
 
     //step1: 삭제하려는 게시글 고유번호를 추출한다.
     var articleIdx = req.query.aid;
@@ -254,7 +256,7 @@ router.get('/delete', async (req, res) => {
 //기존 게시글 정보 확인 및 수정 웹페이지 요청과 응답 라우팅 메소드 
 //http://localhost:3000/article/modify/1
 //GET
-router.get('/modify/:aid', async (req, res) => {
+router.get('/modify/:aid', isLoggedIn, async (req, res) => {
 
     //step1:선택한 게시글 고유번호를 파라메터 방식으로 URL을 통해 전달받음
     var articleIdx = req.params.aid;
@@ -276,7 +278,7 @@ router.get('/modify/:aid', async (req, res) => {
 //기존 게시글 사용자 수정정보 처리 요청과 응답 라우팅 메소드 
 //http://localhost:3000/article/modify/1
 //POST
-router.post('/modify/:aid', async (req, res) => {
+router.post('/modify/:aid', isLoggedIn, async (req, res) => {
 
     //게시글 고유번호 URL파라메터에서 추출하기 
     var articleIdx = req.params.aid;

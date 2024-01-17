@@ -10,10 +10,11 @@ const aes = require('mysql-aes');
 
 var sequelize = db.sequelize;
 const { QueryTypes } = sequelize;
+const {isLoggedIn, isNotLoggedIn} =require('./sessionMiddleware');
 
 
 //get list
-router.get('/list', async (req, res, next) => {
+router.get('/list', isLoggedIn, async (req, res, next) => {
     var searchOption = {
         companyCode: "0",
         admin_id: "",
@@ -36,11 +37,11 @@ router.get('/list', async (req, res, next) => {
     res.render('admin/list.ejs', { admins, searchOption });
 });
 
-router.get('/create', async (req, res, next) => {
+router.get('/create',isLoggedIn, async (req, res, next) => {
     res.render('admin/create.ejs');
 });
 
-router.post('/create', async (req, res, next) => {
+router.post('/create',isLoggedIn, async (req, res, next) => {
 
     //관리자 암호를 해시알고리즘 기반 단방향 암호화 적용하기
     //bcrypt.hash('평문', 암호변환횟수)
@@ -73,7 +74,7 @@ router.post('/create', async (req, res, next) => {
     res.redirect('/admin/list');
 });
 
-router.get('/modify/:aid', async (req, res, next) => {
+router.get('/modify/:aid', isLoggedIn,async (req, res, next) => {
     var aid = req.params.aid;
     var admin = await db.Admin.findOne({ where: { admin_id: aid } });
     
@@ -86,7 +87,7 @@ router.get('/modify/:aid', async (req, res, next) => {
     res.render('admin/modify.ejs', { admin });
 })
 
-router.post('/modify/:aid', async (req, res, next) => {
+router.post('/modify/:aid', isLoggedIn, async (req, res, next) => {
     var aid = req.params.aid;
 
 })
