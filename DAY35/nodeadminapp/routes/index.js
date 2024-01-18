@@ -24,7 +24,6 @@ router.get('/', isLoggedIn, async (req, res, next) => {
   res.render('index.ejs');
 });
 
-
 router.get('/login', isNotLoggedIn, async (req, res, next) => {
   res.render('login.ejs', { layout: false, resultMsg: "" });
 });

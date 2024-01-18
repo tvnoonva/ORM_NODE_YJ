@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <title>JWT토큰 확인하기</title>
+
+    <body>
+        <h1>JWT토큰 확인하기</h1>
+        <form>
+            사용자 아이디:<input type="text" name="userID" value="<%=tokenJsonData.userid%>" /><br/>
+            메일주소:<input type="email" name="email" value="<%=tokenJsonData.email%>" /><br/>
+            사용자유형:<input type="text" name="userType" value="<%=tokenJsonData.usertype%>" /><br/>
+            이름:<input type="text" name="name" value="<%=tokenJsonData.name%>" /><br/>
+            전화번호:<input type="text" name="telephone" value="<%=tokenJsonData.telephone%>" /><br/>
+            <button type="submit">토큰생성하기</button>
+            <hr>
+            생성된 토큰값: <%=token%>
+        </form>
+
+    </body>
+</html>

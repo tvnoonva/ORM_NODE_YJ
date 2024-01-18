@@ -19,6 +19,14 @@ var expressLayouts = require('express-ejs-layouts');
 var session = require('express-session');
 const passport = require('passport');
 const passportConfig = require('./passport/index');
+const redis = require("redis");
+let RedisStore = require("connect-redis")(session);
+let redisClient = redis.createClient({
+  host: "127.0.0.1",
+  port: 6379,
+  db: 0,
+  password: "1234",
+});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -34,7 +42,7 @@ var app = express();
 app.use(flash());
 
 //mysql과 자동연결처리 및 모델기반 물리 테이블 생성처리제공
-sequelize.sync(); 
+sequelize.sync();
 
 //패스포트 설정처리
 passportConfig(passport);
@@ -42,15 +50,18 @@ passportConfig(passport);
 //express기반 서버세션 관리 팩키지 참조하기 
 app.use(
   session({
+    store: new RedisStore({ client: redisClient }),
+    saveUninitialized: true,
+    secret: "secretkey",
     resave: false,
-    saveUninitialized: true, 
-    secret: process.env.COOKIE_SECRET, 
     cookie: {
-      httpOnly: true, //javascript로 cookie에 접근하지 못하게 하는 옵션
-      secure: false, //https 환경에서만 session 정보를 주고받도록 처리
-      maxAge:1000 * 60 * 5 //5분동안 서버세션을 유지하겠다.(1000은 1초)
+      httpOnly: true,
+      secure: false,
+      //maxAge: 3600000, //세션유지 시간설정 : 1시간
     },
-  }),
+    ttl: 250, //Redis DB에서 세션정보가 사라지게 할지에 대한 만료시간설정
+    token: process.env.COOKIE_SECRET,
+  })
 );
 
 //패스포트-세션 초기화:express session 뒤에 설정
@@ -87,12 +98,12 @@ app.use('/admin', adminRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

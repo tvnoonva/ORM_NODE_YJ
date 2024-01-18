@@ -13,10 +13,10 @@ module.exports = passport => {
       //로그인 기능 구현
       try {
          console.log("ID: ",adminId);
-         const admin = await db.Admin.findOne({ where: { admin_id: adminId } });
+         var member = await db.Admin.findOne({where:{admin_id:adminId}});
 
-         if (admin) {
-            if (await bcrypt.compare(adminPWD, admin.admin_password)) {
+         if (member) {
+            if (await bcrypt.compare(adminPWD, member.admin_password)) {
                var sessionLoginData = {
                   admin_member_id: member.admin_member_id,
                   company_code: member.company_code,
