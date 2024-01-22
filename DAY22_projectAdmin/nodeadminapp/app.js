@@ -3,11 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var flash = require('connect-flash');
 
 require('dotenv').config();
 var expressLayouts = require('express-ejs-layouts');
 var sequelize = require('./models/index.js').sequelize;
 var session = require('express-session');
+const passport = require("passport");
+const passportConfig = require('./passport/index.js');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -21,7 +24,10 @@ var messageRouter = require('./routes/message');
 
 var app = express();
 
+app.use(flash());
 sequelize.sync();
+
+passportConfig(passport);
 
 app.use(session({
     resave: false,
@@ -34,6 +40,9 @@ app.use(session({
     },
   }),
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -14,10 +14,10 @@ DAY20/nodeormapp/node_modules
 DAY20/nodeormapp/config/config.json
 DAY21/nodeviewapp/node_modules
 DAY21/nodeviewapp/config/config.json
-DAY22/nodeadminapp/node_modules
-DAY22/nodeadminapp/config/config.json
-DAY23/nodechatapp/node_modules
-DAY23/nodechatapp/config/config.json
+DAY22_projectAdmin/nodeadminapp/node_modules
+DAY22_projectAdmin/nodeadminapp/config/config.json
+DAY23_projectChat/nodechatapp/node_modules
+DAY23_projectChat/nodechatapp/config/config.json
 DAY25/mongonodeapp/node_modules
 DAY25/mongonodeapp/schemas/index.js
 DAY25/nodeviewapp/node_modules
@@ -33,8 +33,8 @@ DAY29/nodeadminapp/.env
 DAY29/nodechatapp/.env
 DAY29/static-front-app/node_modules
 DAY29/nodeadminapp/public/upload
-DAY23/nodechatapp/.env
-DAY22/nodeadminapp/.env
+DAY23_projectChat/nodechatapp/.env
+DAY22_projectAdmin/nodeadminapp/.env
 DAY35/nodeadminapp/node_modules
 DAY35/nodeadminapp/.env
 DAY35/nodechatapp/node_modules

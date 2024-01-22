@@ -2,7 +2,12 @@
 
 <script>
     var result="<%=resultMsg%>";
+    var error="<%=loginError%>";
     if(result!=""){
       document.getElementById("resultMsg").innerText=result;
+    }
+
+    if(error.length>0){
+      document.getElementById("resultMsg").innerText=error;
     }
   </script>
