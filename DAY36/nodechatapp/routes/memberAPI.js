@@ -8,6 +8,9 @@ var jwt = require('jsonwebtoken');
 //사용자 토큰 검사 미들웨어 참조
 var {tokenAuthChecking} = require('./apiMiddleware');
 
+//열거형 상수 참조
+var constants = require('../common/enum');
+
 var apiResult = {
   code: 400,
   data: null,
@@ -169,5 +172,22 @@ router.get('/profile', tokenAuthChecking, async (req, res, next) => {
   res.json(apiResult);
 
 })
+
+//전체 회원 목록 
+router.get('/all', tokenAuthChecking, async(req,res,next)=>{
+  try{
+
+    var member_list = await db.Member.findAll({
+      attributes:['member_id', 'email', 'name', 'profile_img_path', 'telephone'],
+      // where:{use_state_code:constants.USE_STATE_CODE_USED}
+      where:{use_state_code:constants.USE_STATE_CODE_USED}
+    });
+    return res.json({code:200, data:member_list, msg:"OK"});
+    
+  }catch(err){
+    return res.json({code:500, data:null, msg:"Error in /all GET"});
+  }
+
+});
 
 module.exports = router;
