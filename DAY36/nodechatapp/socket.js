@@ -64,6 +64,7 @@ module.exports = (server) => {
             try {
                 var channeldata = {};
                 var currentUser = jwt.verify(channel.token, process.env.JWT_SECRET);
+                console.log(currentUser);
 
                 //STEP1 채널 유형별 채널정보 생성 혹은 조회
                 //일대일 채널의 경우 생성, 그룹 채널은 조회
@@ -90,7 +91,7 @@ module.exports = (server) => {
                         //채널 정보 업데이트
                         channeldata = registedChannel;
 
-                        var currnetMember = {
+                        var currentMember = {
                             channel_id: registedChannel.channel_id,
                             member_id: currentUser.member_id,
                             nickName: currentUser.name,
@@ -136,10 +137,10 @@ module.exports = (server) => {
 
                 //STEP4 결과발송
                 socket.emit('entryok', `${currentUser.name} 대화명으로 입장했습니다.`,currentUser.name);
-                socket.to(channeldata.channel_id).emit('entryok', `${currnetMember.name}님이 채팅방에 입장했습니다.`,currentUser.name);
+                socket.to(channeldata.channel_id).emit('entryok', `${currentUser.name}님이 채팅방에 입장했습니다.`,currentUser.name);
 
                 //입장기록 저장
-                await ChattingMsgLogging(channelData.channel_id,currentUser.member_id,currentUser.name,1,`${currentUser.name}님이 채팅방에 입장했습니다`);
+                await ChattingMsgLogging(channeldata.channel_id,currentUser.member_id,currentUser.name,1,`${currentUser.name}님이 채팅방에 입장했습니다`);
 
             } catch (err) {
                 console.log("채널 입장에러 발생:",err);
