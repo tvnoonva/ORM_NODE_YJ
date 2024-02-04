@@ -51,7 +51,7 @@
 						Quick Chat is an intelligent and communications tool, built for teams. It provides an integrated
 						platform that makes team communication easy and efficient.
 					</div>
-					<a href="index.html" class="know-more">Know More <img src="img/right-arrow.svg"></a>
+					<a href="main.html" class="know-more">Know More <img src="img/right-arrow.svg"></a>
 
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 					<form id="loginForm">
 						<div class="login-screen">
 							<div class="login-body">
-								<a href="index.html" class="login-logo">
+								<a href="main.html" class="login-logo">
 									<img src="img/logo.svg" alt="Quick Chat">
 								</a>
 								<h6>Welcome back,<br>Please login to your account.</h6>
@@ -123,10 +123,11 @@
 						alert(result.result);
 						return false;
 					} else if (result.code == 500) {
-						alert("Login ERROR");
+						alert(result.result);
 						return false;
 					} else if(result.code ==200){
-						location.href = '/index.html';
+						localStorage.setItem('userauthtoken', result.data);
+						location.href = '/main.html';
 					}
 				},
 				error: function (error) {

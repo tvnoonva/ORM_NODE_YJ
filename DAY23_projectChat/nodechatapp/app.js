@@ -4,11 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config();
+var sequelize = require('./models/index.js').sequelize;
+var debug = require('debug');
 
 var expressLayouts = require('express-ejs-layouts');
-var sequelize = require('./models/index.js').sequelize;
 const cors = require('cors');
+var session = require('./node_modules/express-session');
+const webSocket = require('./socket.js');
 
+// 라우터
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var channelRouter = require('./routes/channel');
@@ -16,8 +20,22 @@ var memberAPIRouter = require('./routes/memberAPI');
 var channelAPIRouter = require('./routes/channelAPI');
 
 var app = express();
-
 sequelize.sync();
+
+app.use(cors());
+
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: true,
+    secret: "testsecret",
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1000 * 60 * 5 //5분동안 서버세션을 유지하겠다.(1000은 1초)
+    },
+  }),
+);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,15 +59,14 @@ app.use('/channel', channelRouter);
 app.use('/api/member', memberAPIRouter);
 app.use('/api/channel', channelAPIRouter);
 
-// app.use(cors());
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -59,4 +76,47 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+// 기본 was 서비스 포트
+app.set('port', process.env.PORT || 3000);
+
+// 서버 객체 생성
+var server = app.listen(app.get('port'), function () {
+
+});
+
+webSocket(server);
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

@@ -51,7 +51,7 @@
 						Quick Chat is an intelligent and communications tool, built for teams. It provides an integrated
 						platform that makes team communication easy and efficient.
 					</div>
-					<a href="index.html" class="know-more">Know More <img src="img/right-arrow.svg"></a>
+					<a href="main.html" class="know-more">Know More <img src="img/right-arrow.svg"></a>
 
 				</div>
 			</div>
@@ -60,7 +60,7 @@
 					<form id="entryForm">
 						<div class="login-screen">
 							<div class="login-body">
-								<a href="index.html" class="login-logo">
+								<a href="main.html" class="login-logo">
 									<img src="img/logo.svg" alt="Quick Chat">
 								</a>
 								<h6>Welcome to Quick Chat App,<br>Create your account.</h6>
@@ -79,6 +79,10 @@
 								<div class="field-wrapper">
 									<input type="text" id="name">
 									<div class="field-placeholder">User Name</div>
+								</div>
+								<div class="field-wrapper">
+									<input type="text" id="telephone">
+									<div class="field-placeholder">Phone number</div>
 								</div>
 								<div class="actions">
 									<button type="submit" class="btn btn-primary ml-auto">Sign Up</button>
@@ -123,29 +127,25 @@
 				return false;
 			};
 
+			//AJAX로 사용자 회원가입 기능 구현+백엔드 RESTful과 연동
+			//MVP 패턴
 			var member = {
 				"email": $("#email").val(),
 				"password": $("#password").val(),
-				"name": $("#name").val()
-			};
+				"name": $("#name").val(),
+				"telephone": $("#telephone").val()
+			}
 
-			$.ajax({
-				url:"/api/member/entry",
-				type:"POST",
-				data:member,
-				success:function(result){
-					console.log(result);
+			$.post('/api/member/entry', member).done(function (result) {
+				console.log("백엔드에서 전달된 회원가입결과값:", result);
 
-					if (result.code == 400) {
-						alert(result.result);
-						return false;
-					} else if (result.code == 500) {
-						alert("Login ERROR");
-						return false;
-					} else if(result.code ==200){
-						alert(`${member.name}, Welcome! Your Entry is Successful!`);
-						location.href = '/login.html';
-					}
+				if (result.code == 200) {
+					alert("회원등록완료");
+					location.href = '/login.html';
+				} else if (result.code == 400) {
+					alert(result.result);
+				} else {
+					alert(result.result);
 				}
 			});
 

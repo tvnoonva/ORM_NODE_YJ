@@ -3,54 +3,41 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-//flash 패키지(휘발성 데이터를 뷰에 전달) 참조
 var flash = require('connect-flash');
-
-//환경설정파일 호출하기: 전역정보로 설정
-//호출 위치 app.js 최상단
 require('dotenv').config();
-
-var sequelize = require('./models/index').sequelize;
-
-//express-ejs-layouts 패키지 참조하기
-var expressLayouts = require('express-ejs-layouts');
-
 var session = require('express-session');
-const passport = require('passport');
-const passportConfig = require('./passport/index');
+
+//redis
 const redis = require("redis");
 let RedisStore = require("connect-redis")(session);
 let redisClient = redis.createClient({
-  host: "127.0.0.1",
-  port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
   db: 0,
-  password: "1234",
 });
+
+
+//패스포트
+const passport = require('passport');
+const passportConfig = require('./passport/index.js');
+var sequelize = require('./models/index').sequelize;
+var expressLayouts = require('express-ejs-layouts');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
-
+var adminRouter = require('./routes/admin');
 var articleRouter = require('./routes/article');
 var articleAPIRouter = require('./routes/articleAPI');
-var adminRouter = require('./routes/admin');
 
 var app = express();
 
-//flash 사용 활성화: cookie-parser와 express-session보다 위에 위치
 app.use(flash());
-
-//mysql과 자동연결처리 및 모델기반 물리 테이블 생성처리제공
-sequelize.sync();
-
-//패스포트 설정처리
+sequelize.sync(); 
 passportConfig(passport);
 
-//express기반 서버세션 관리 팩키지 참조하기 
 app.use(
   session({
-    store: new RedisStore({ client: redisClient }),
+  store: new RedisStore({ client: redisClient }),
     saveUninitialized: true,
     secret: "secretkey",
     resave: false,
@@ -58,13 +45,12 @@ app.use(
       httpOnly: true,
       secure: false,
       //maxAge: 3600000, //세션유지 시간설정 : 1시간
-    },
-    ttl: 250, //Redis DB에서 세션정보가 사라지게 할지에 대한 만료시간설정
-    token: process.env.COOKIE_SECRET,
+  },
+    ttl : 250, //Redis DB에서 세션정보가 사라지게 할지에 대한 만료시간설정
+    token: "secretkey",
   })
 );
 
-//패스포트-세션 초기화:express session 뒤에 설정
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -79,31 +65,25 @@ app.set("layout extractStyles", true);//콘텐츠페이지내 style태그를 레
 app.set("layout extractMetas", true); //콘텐츠페이지내 meta 태그를 레이아웃에 통합할지여부
 app.use(expressLayouts);
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
-
+app.use('/admin', adminRouter);
 app.use('/article', articleRouter);
 app.use('/api/article', articleAPIRouter);
-app.use('/admin', adminRouter);
-
-
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
