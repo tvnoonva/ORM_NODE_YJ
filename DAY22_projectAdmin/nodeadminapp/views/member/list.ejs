@@ -1,3 +1,20 @@
+<!--우측 콘텐츠 헤더영역 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+      <h2>사용자 정보 관리</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="/main">Home</a>
+        </li>
+        >
+        <li>
+          <a>사용자 정보 관리</a>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+
 <!--우측 콘텐츠 영역 -->
 <div class="wrapper wrapper-content">
     <div class="ibox-content m-b-sm border-bottom">
@@ -10,14 +27,18 @@
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="control-label" for="OrderName">아이디</label>
+                    <label class="control-label" for="OrderName">사용자 아이디</label>
                     <input type="text" class="form-control" />
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="control-label" for="MobileNo">사용여부</label>
-                    <input type="text" class="form-control" />
+                    <label class="control-label" for="MobileNo">상태</label>
+                    <select class="form-control">
+                        <option value="9">선택</option>
+                        <option value="1">일반계정</option>
+                        <option value="0">휴면계정</option>
+                      </select>
                 </div>
             </div>
         </div>
@@ -36,7 +57,7 @@
                             <thead>
                                 <tr>
                                     <th width="10%">멤버ID</th>
-                                    <th width="20%">사용자 이름</th>
+                                    <th width="10%">사용자 이름</th>
                                     <th width="20%">이메일</th>
                                     <th width="20%">전화번호</th>
                                     <th width="10%">유형</th>
@@ -59,14 +80,14 @@
                                             <%=member_list[i].telephone%>
                                         </td>
                                         <td>
-                                            <% if(member_list[i].entry_type_code==1){%>
-                                                사용자
+                                            <% if(member_list[i].use_state_code==1){%>
+                                                일반계정
                                                 <% } else{ %>
-                                                    관리자
+                                                    휴면계정
                                                     <% }%>
                                         </td>
                                         <td>
-                                            <%=member_list[i].reg_date%>
+                                            <%=moment(member_list[i].reg_date).format('YYYY-MM-DD HH:mm:ss') %>
                                         </td>
                                     </tr>
                                     <% } %>

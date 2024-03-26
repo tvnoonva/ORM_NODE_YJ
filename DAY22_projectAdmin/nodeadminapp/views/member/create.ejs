@@ -1,77 +1,179 @@
+<!--우측 콘텐츠 헤더영역 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>사용자 정보 관리</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="/main">Home</a>
+      </li>
+      >
+      <li>
+        <a>사용자 정보 관리</a>
+      </li>
+      >
+      <li class="active">
+        <strong>신규</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
 <!--우측 콘텐츠 영역 -->
 <form action="/member/create" id="memberForm" method="post">
-    <div class="wrapper wrapper-content">
-        <div class="ibox-content m-b-sm border-bottom">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group d-flex flex-column">
-                        <label class="control-label">프로필 사진</label>
-                        <img class="w-75" src="" alt="" />
-                        <button class="w-75" submit="/">변경</button>
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <div>
-                            <label class="control-label">이름</label>
-                            <input type="text" id="name" name="name" class="form-control mb-3" />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">이메일</label>
-                            <input type="email" id="email" name="email" class="form-control mb-3" />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">비밀번호</label>
-                            <input type="password" id="member_password" name="member_password" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">전화번호</label>
-                            <input type="text" id="telephone" name="telephone" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">생년월일</label>
-                            <input type="text" id="birth_date" name="birth_date" class="form-control" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">저장</button>
-                <a href="/member/list" class="btn btn-info">목록</a>
-            </div>
+  <div class="wrapper wrapper-content">
+    <div class="ibox-content m-b-sm border-bottom">
+      <!-- <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group d-flex flex-column">
+            <label class="control-label">프로필 사진</label>
+            <img class="w-75" src="" alt="" />
+            <button class="w-75" submit="/">변경</button>
+          </div>
         </div>
+      </div> -->
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label class="control-label">등록일</label>
+            <input
+              type="text"
+              class="form-control"
+              name="reg_date"
+              id="reg_date"
+              value=""
+              readonly
+            />
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label">가입유형</label>
+            <select
+              id="entry_type_code"
+              name="entry_type_code"
+              class="form-control"
+            >
+              <option value="9">선택</option>
+              <option value="0">일반가입</option>
+              <option value="1">카카오가입</option>
+              <option value="2">네이버가입</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label class="control-label">상태</label>
+            <select
+              id="use_state_code"
+              name="use_state_code"
+              class="form-control"
+            >
+              <option value="9">선택</option>
+              <option value="1">일반계정</option>
+              <option value="0">휴면계정</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">사용자 이메일 주소</label>
+            <input type="text" class="form-control" name="email" id="email" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">사용자 비밀번호</label>
+            <input
+              type="password"
+              class="form-control"
+              name="member_password"
+              id="member_password"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">사용자 이름</label>
+            <input type="text" class="form-control" name="name" id="name" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">사용자 전화번호</label>
+            <input
+              type="text"
+              class="form-control"
+              name="telephone"
+              id="telephone"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="control-label">사용자 생년월일</label>
+            <input
+              type="text"
+              class="form-control"
+              name="birth_date"
+              id="birth_date"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary" id="button-save">
+          저장
+        </button>
+        <a href="/member/list" class="btn btn-info">목록</a>
+      </div>
     </div>
+  </div>
 </form>
 
 <script>
-    //유효성검사
-    $('#memberForm').submit(function () {
-        if ($('#name').val() == '') {
-            alert('이름을 입력해주세요.');
-            $('#name').focus();
-            return false;
-        }
+  //유효성검사
+  $("#memberForm").submit(function () {
+    if ($("#name").val() == "") {
+      alert("이름을 입력해주세요.");
+      $("#name").focus();
+      return false;
+    }
 
-        if ($('#member_password').val() == '') {
-            alert('비밀번호를 입력해주세요.');
-            $('#member_password').focus();
-            return false;
-        }
+    if ($("#member_password").val() == "") {
+      alert("비밀번호를 입력해주세요.");
+      $("#member_password").focus();
+      return false;
+    }
 
-        if ($('#email').val() == '') {
-            alert('email을 입력해주세요.');
-            $('#email').focus();
-            return false;
-        }
+    if ($("#email").val() == "") {
+      alert("email을 입력해주세요.");
+      $("#email").focus();
+      return false;
+    }
 
-        if ($('#telephone').val() == '') {
-            alert('전화번호를 입력해주세요.');
-            $('#telephone').focus();
-            return false;
-        }
+    if ($("#telephone").val() == "") {
+      alert("전화번호를 입력해주세요.");
+      $("#telephone").focus();
+      return false;
+    }
 
-        return true;
-    });
+    if ($("#birth_date").val() == "") {
+      alert("생년월일을 입력해주세요.");
+      $("#birth_date").focus();
+      return false;
+    }
+
+    return true;
+  });
 </script>
